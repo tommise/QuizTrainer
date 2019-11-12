@@ -1,5 +1,10 @@
 # Ohjelmistotekniikka, harjoitustyö
 
+## Documentation
+
+[Requirements specifications](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/requirements_specifications.md)
+[Työaikakirjanpito](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/tuntikirjanpito.md)
+
 ## Exercises
 
 ### Week 1:
