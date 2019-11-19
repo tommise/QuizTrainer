@@ -1,4 +1,6 @@
-# Ohjelmistotekniikka, harjoitustyö
+# QuizTrainer
+
+QuizTrainer is a Java based flashcard studying application used in a desktop setting. User can make their own cards and rehearse them accordingly. The cards will be chosen from a deck using spaced repetition. 
 
 ## Documentation
 
@@ -6,22 +8,24 @@
 
 [Työaikakirjanpito](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/tuntikirjanpito.md)
 
-## Exercises
+## Instructions
 
-### Week 1:
-
-[gitlog.txt](https://github.com/tommise/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
-
-[komentorivi.txt](https://github.com/tommise/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt) 
-
-### Week 2:
-
-[MaksukorttiTest.java](https://github.com/tommise/ot-harjoitustyo/blob/master/laskarit/viikko2/Maksukortti/test/MaksukorttiTest.java)
-
-[Unicafe KassapaateTest.java](https://github.com/tommise/ot-harjoitustyo/blob/master/laskarit/viikko2/Unicafe/src/test/java/com/mycompany/unicafe/KassapaateTest.java)
-
-[Unicafe MaksukorttiTest.java](https://github.com/tommise/ot-harjoitustyo/blob/master/laskarit/viikko2/Unicafe/src/test/java/com/mycompany/unicafe/MaksukorttiTest.java)
-
-[testikattavuus.png](https://github.com/tommise/ot-harjoitustyo/blob/master/laskarit/viikko2/Testikattavuus.png)
-
+### Running the program
+Run from the root folder:
+```
+mvn compile exec:java -Dexec.mainClass=Main
+```
+### Running tests
+```
+mvn test
+```
+### Test coverage report
+```
+mvn test jacoco:report
+```
+The report will be found from /target/site/jacoco/index.html
+### Build jar
+```
+mvn package
+```
 
