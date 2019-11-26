@@ -2,7 +2,7 @@
 
 ## Structure
 
-![Package structure](https://github.com/tommise/ot-harjoitustyo/tree/master/documentation/images/packages.png)
+![Package structure](images/packages.png.png "Package structure")
 
 _quiztrainer.ui_ holds an user interface implemented in Java FX
 _quiztrainer.domain_ holds the main components QuizCard and Box
@@ -42,13 +42,13 @@ The main functionalities can be found from packages _quiztrainer.domain_ and _qu
 - Contains five Box objects
 - Adds a new card to Box 1
 - Moves a card from box to another based on the answer, using so called Leitner system. If the answer is wrong, card will be moven to Box 1. If the answer is right, card will be moven up.
-![Leitner system](https://github.com/tommise/ot-harjoitustyo/tree/master/documentation/images/leitner_system.png)
+![Leitner system](images/leitner_system.png "Leitner system")
 
 **Class Interval:**
 - Picks a random box with probabilities (60%, 20%, 10%, 5%, 5%) where higher priority is given
 to Box number 1 (60%). 
 - Picks a random QuizCard from the drawn box
-![QuizCard interval](https://github.com/tommise/ot-harjoitustyo/tree/master/documentation/images/quizcard_interval.png)
+![QuizCard interval](images/quizcard_interval.png "QuizCard interval")
 
 **Class Trainer:**
 - Adds a card to the leitner system
