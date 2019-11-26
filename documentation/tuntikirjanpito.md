@@ -10,5 +10,6 @@
 | 24.11 | 6h   | Projektin logiikan implementointia |
 | 25.11 | 4h   | JavaFX:n konfigurointia, ensimmäiset JavaFX ikkunat |
 | 26.11 | 3h   | Koodin siistimistä, JUnit testejä |
+| 26.11 | 2h   | Arkkitehtuurin kirjoittamista |
 
-Yhteensä: 26h
+Yhteensä: 28h
