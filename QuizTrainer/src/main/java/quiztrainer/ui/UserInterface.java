@@ -32,18 +32,20 @@ public class UserInterface extends Application {
         
         // Primary scene
         VBox primaryPane = new VBox(20);
-        primaryPane.setPadding(new Insets(10));
-        primaryPane.setPadding(new Insets(10));
+        primaryPane.setPadding(new Insets(20));
+        primaryPane.setPadding(new Insets(20));
         Label welcomeLabel = new Label("Welcome to QuizTrainer!");
         Button primaryAddANewCardButton = new Button("Add a new card");
         Button primaryRehearseButton = new Button("Rehearse");
         Label errorLabel = new Label("");
         primaryPane.getChildren().addAll(welcomeLabel, primaryAddANewCardButton, primaryRehearseButton, errorLabel);
         
+        Button returnFromAddButton = new Button("<- Return to menu");        
+        
         // Scene for adding a new card
         VBox addANewCardPane = new VBox(20);
-        addANewCardPane.setPadding(new Insets(10));
-        addANewCardPane.setPadding(new Insets(10));
+        addANewCardPane.setPadding(new Insets(20));
+        addANewCardPane.setPadding(new Insets(20));
         
         addANewCardScene = new Scene(addANewCardPane, 500, 500);
         
@@ -52,30 +54,30 @@ public class UserInterface extends Application {
         });
         
         VBox newQuestionPane = new VBox(20);
-        newQuestionPane.setPadding(new Insets(10));
-        newQuestionPane.setPadding(new Insets(10));
         Label newQuestionLabel = new Label("What is the question?");
         TextField newQuestionInput = new TextField("");
         newQuestionPane.getChildren().addAll(newQuestionLabel, newQuestionInput);
         
         VBox newAnswerPane = new VBox(20);
-        newAnswerPane.setPadding(new Insets(10));
-        newAnswerPane.setPadding(new Insets(10));
         Label rightAnswerLabel = new Label("What is the right answer?");
         TextField newAnswerInput = new TextField(""); 
         newAnswerPane.getChildren().addAll(rightAnswerLabel, newAnswerInput);
         
         VBox wrongChoicesPane = new VBox(20);
-        wrongChoicesPane.setPadding(new Insets(10));
-        wrongChoicesPane.setPadding(new Insets(10));
         Label wrongChoicesLabel = new Label("Type three (3) false answers.");
         TextField wrongChoice1Input = new TextField(""); 
         TextField wrongChoice2Input = new TextField(""); 
         TextField wrongChoice3Input = new TextField("");         
-        wrongChoicesPane.getChildren().addAll(wrongChoicesLabel, wrongChoice1Input, wrongChoice2Input, wrongChoice3Input);        
+        wrongChoicesPane.getChildren().addAll(wrongChoicesLabel, wrongChoice1Input, wrongChoice2Input, wrongChoice3Input);
         
-        Label falseInputLabel = new Label("");
+        VBox addButtonsPane = new VBox(20);
+        
+        HBox addACardButtonPane = new HBox(10);
         Button addANewCardButton = new Button("Add a new question");
+        Label falseInputLabel = new Label("");
+        addACardButtonPane.getChildren().addAll(addANewCardButton, falseInputLabel);
+        
+        addButtonsPane.getChildren().addAll(addACardButtonPane, returnFromAddButton);
         
         addANewCardButton.setOnAction(e-> {
             String question = newQuestionInput.getText();
@@ -106,24 +108,33 @@ public class UserInterface extends Application {
                 errorLabel.setText("");  
                 primaryStage.setScene(mainScene);
             } else {
-                falseInputLabel.setText("One of the input is empty.");
+                falseInputLabel.setText("One of the forms is empty.");
                 falseInputLabel.setTextFill(Color.RED);
             }
         });
         
-        addANewCardPane.getChildren().addAll(newQuestionPane, newAnswerPane, wrongChoicesPane, addANewCardButton, falseInputLabel);
+        returnFromAddButton.setOnAction(e-> {
+            newQuestionInput.setText("");
+            newAnswerInput.setText("");
+            wrongChoice1Input.setText("");
+            wrongChoice2Input.setText("");
+            wrongChoice3Input.setText(""); 
+            falseInputLabel.setText("");
+            errorLabel.setText(""); 
+            primaryStage.setScene(mainScene);
+        });
         
+        addANewCardPane.getChildren().addAll(newQuestionPane, newAnswerPane, wrongChoicesPane, addButtonsPane);
+                
         // Scene for rehearsing 
+        
         VBox rehearsePane = new VBox(20);
-        rehearsePane.setPadding(new Insets(10));
-        rehearsePane.setPadding(new Insets(10));
+        rehearsePane.setPadding(new Insets(20));
+        rehearsePane.setPadding(new Insets(20));
         
         rehearseScene = new Scene(rehearsePane, 500, 500);
         
-        HBox answerPane = new HBox(20);
-        answerPane.setPadding(new Insets(10));
-        answerPane.setPadding(new Insets(10));
-        
+        HBox answerPane = new HBox(20);        
         Label question = new Label("");
         Button answer1Button = new Button("");
         Button answer2Button = new Button("");
@@ -132,6 +143,27 @@ public class UserInterface extends Application {
         answerPane.getChildren().addAll(answer1Button, answer2Button, answer3Button);
 
         Label resultLabel = new Label("");
+        Button nextQuestionButton = new Button("Next question ->");
+        Button returnFromRehearseButton = new Button("<- Return to menu");
+        
+        rehearsePane.getChildren().addAll(question, answerPane, resultLabel, nextQuestionButton, returnFromRehearseButton); 
+        
+        primaryRehearseButton.setOnAction(e-> {
+            QuizCard quizCard = trainer.getNextQuestion();
+            if (quizCard == null) {
+                errorLabel.setText("There are no cards to rehearse.");
+                errorLabel.setTextFill(Color.RED);             
+            } else {
+                question.setText(quizCard.getQuestion());
+                ArrayList<String> nextCardChoices = quizCard.generateChoices();
+                answer1Button.setText(nextCardChoices.get(0));
+                answer2Button.setText(nextCardChoices.get(1)); 
+                answer3Button.setText(nextCardChoices.get(2));
+                resultLabel.setText(""); 
+                errorLabel.setText("");                
+                primaryStage.setScene(rehearseScene); 
+            }
+        });
         
         answer1Button.setOnAction(e-> {
             String answer = answer1Button.getText();
@@ -163,25 +195,6 @@ public class UserInterface extends Application {
             }  
         });        
         
-        Button nextQuestionButton = new Button("Next question ->");
-        
-        primaryRehearseButton.setOnAction(e-> {
-            QuizCard quizCard = trainer.getNextQuestion();
-            if (quizCard == null) {
-                errorLabel.setText("There are no cards to rehearse.");
-                errorLabel.setTextFill(Color.RED);             
-            } else {
-                question.setText(quizCard.getQuestion());
-                ArrayList<String> nextCardChoices = quizCard.generateChoices();
-                answer1Button.setText(nextCardChoices.get(0));
-                answer2Button.setText(nextCardChoices.get(1)); 
-                answer3Button.setText(nextCardChoices.get(2));
-                resultLabel.setText(""); 
-                errorLabel.setText("");                
-                primaryStage.setScene(rehearseScene); 
-            }
-        });
-        
         nextQuestionButton.setOnAction(e-> {
             QuizCard nextCard = trainer.getNextQuestion();
             question.setText(nextCard.getQuestion());
@@ -189,10 +202,12 @@ public class UserInterface extends Application {
             answer1Button.setText(nextCardChoices.get(0));
             answer2Button.setText(nextCardChoices.get(1)); 
             answer3Button.setText(nextCardChoices.get(2));
-            resultLabel.setText("");            
+            resultLabel.setText("");
         });
         
-        rehearsePane.getChildren().addAll(question, answerPane, resultLabel, nextQuestionButton);
+        returnFromRehearseButton.setOnAction(e-> {
+            primaryStage.setScene(mainScene);
+        });
         
         mainScene = new Scene(primaryPane, 500, 500);
         
