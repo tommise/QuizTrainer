@@ -31,12 +31,10 @@ public class Trainer {
 
     public QuizCard getNextQuestion() {
         ArrayList<Box> boxes = this.leitner.getBoxes();
-        ArrayList<Integer> boxSizes = new ArrayList<>();
         int totalSize = 0;
             
         for (Box box: boxes) {
             int sizeOfBox = box.getQuizCards().size();
-            boxSizes.add(sizeOfBox);
             totalSize += sizeOfBox;
         }
         
@@ -44,7 +42,7 @@ public class Trainer {
             return null;
         }
             
-        QuizCard nextCard = this.interval.drawANewCard(boxes, boxSizes, totalSize);
+        QuizCard nextCard = this.interval.drawANewCard(boxes);
         
         return nextCard;
     } 
