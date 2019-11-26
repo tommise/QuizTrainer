@@ -1,20 +1,19 @@
 
-package domain;
+package quiztrainer.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class QuizCard {
     
     String question;
     String correctAnswer;
-    int difficulty;
     ArrayList<String> falseAnswers;
 
     public QuizCard(String question, String correctAnswer, ArrayList<String> falseAnswers) {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.falseAnswers = falseAnswers;
-        this.difficulty = 0;
     }
     
     public String getQuestion() {
@@ -25,14 +24,6 @@ public class QuizCard {
         return answer.equals(this.correctAnswer);
     }
     
-    public String getAnswerString(boolean answer) {
-        if (answer == true) {
-            return "Correct! The answer is " + this.correctAnswer + ".";
-        } else {
-            return "Wrong. The correct answer is " + this.correctAnswer + ".";
-        }
-    }
-    
     public ArrayList<String> getFalseAnswers() {
         return this.falseAnswers;
     }
@@ -41,17 +32,16 @@ public class QuizCard {
         return this.correctAnswer;
     }
     
-    public int getDifficulty() {
-        return this.difficulty;
-    }
-    
-    public void setDifficulty(int result) {
-        if (this.difficulty - result <= 0) {
-            this.difficulty = 0;
-        } else if (result < 0) {
-            this.difficulty -= result;
-        } else {
-            this.difficulty += result;
-        }
+    public ArrayList<String> generateChoices() {
+        ArrayList<String> choices = new ArrayList<>();
+
+        choices.add(this.correctAnswer);
+        Collections.shuffle(falseAnswers);
+        choices.add(falseAnswers.get(0));
+        choices.add(falseAnswers.get(1));
+
+        Collections.shuffle(choices);
+        
+        return choices;
     }
 }
