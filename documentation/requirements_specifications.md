@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This application is a flashcard based studying application used in a desktop setting. User can make their own cards and rehearse the cards accordingly. The cards will be chosen from a deck using SRS (Spaced repetition system). Only registered users can use the application.
+This application is a flashcard based studying application used in a desktop setting. User can make their own cards and rehearse the cards accordingly. In the rehearse mode, the cards will be chosen using modified [Leitner system](https://en.wikipedia.org/wiki/Leitner_system) with probabilities related to the boxes. Only registered users can use the application.
 
 ## Users
 
@@ -17,21 +17,25 @@ There is one type of user which is a registered user. Unregistered users can reg
 
 ### After login
 
-User will see three options “Rehearse, My cards and Log out”:
+User will see four options “Add a card, Rehearse, My cards and Log out”:
+
+#### Add a card:
+- User can add a new flashcard. While adding a new flashcard, it is required to add a question, a correct answer and x amount of possible other choices. The flashcard will be added to a default deck. _(*Task done)_
 
 #### Rehearse:
 
-- User will be given a flashcard from the default deck using spaced repetition.
-- User has few possible answers to choose from. After the user has answered, correct answer will be shown. Depending on the answer, the card “difficulty” will be updated. If the answer is incorrect, the card will be rehearsed more frequently than the card which was correcly answered.
+- User will be given a random flashcard from the default deck using Leitner system logic. _(Task done)_
+- User has few possible answers to choose from. After the user has answered, correct answer will be shown. Depending on the answer, the card “difficulty” will be updated and the card will be moved to a different box. If the answer is incorrect, the card will be rehearsed more frequently (moved to a lower box) than the card which was correctly answered. _(*Task done)_
 
 #### My cards:
 
-- User can add a new flashcard. While adding a new flashcard, it is required to add a question, a correct answer and x amount of possible other choices. The flashcard will be added to a default deck.
 - User can view what cards are in the default deck.
 
 #### Log out:
 
 - User can log out which will bring the view back to the default screen.
+
+_Tasks that are marked as done with a star(*), are done to a point where the data is not permanently stored yet._
 
 ## Further development
 
