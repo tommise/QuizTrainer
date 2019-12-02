@@ -12,8 +12,8 @@ There is one type of user which is a registered user. Unregistered users can reg
 
 ### Before login
 
-- User can create an account by providing a username which is not taken.
-- User can login to the application using previously made username.
+- User can create an account by providing a username which is not taken. _(Task done)_
+- User can login to the application using previously made username. _(Task done)_
 
 ### After login
 
@@ -24,7 +24,7 @@ User will see four options “Add a card, Rehearse, My cards and Log out”:
 
 #### Rehearse:
 
-- User will be given a random flashcard from the default deck using Leitner system logic. _(Task done)_
+- User will be given a random flashcard from the default deck using Leitner system logic. _(*Task done)_
 - User has few possible answers to choose from. After the user has answered, correct answer will be shown. Depending on the answer, the card “difficulty” will be updated and the card will be moved to a different box. If the answer is incorrect, the card will be rehearsed more frequently (moved to a lower box) than the card which was correctly answered. _(*Task done)_
 
 #### My cards:
@@ -33,7 +33,7 @@ User will see four options “Add a card, Rehearse, My cards and Log out”:
 
 #### Log out:
 
-- User can log out which will bring the view back to the default screen.
+- User can log out which will bring the view back to the starting scene. _(Task done)_
 
 _Tasks that are marked as done with a star(*), are done to a point where the data is not permanently stored yet._
 
