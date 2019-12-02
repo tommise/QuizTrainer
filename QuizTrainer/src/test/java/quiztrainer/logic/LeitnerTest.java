@@ -8,11 +8,12 @@ import quiztrainer.domain.QuizCard;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import quiztrainer.domain.Deck;
 
 public class LeitnerTest {
     QuizCard quizCard;
-    Trainer quizTrainer;
     Leitner leitner;
+    Deck deck;
     ArrayList<Box> boxes;
     
     @Before
@@ -26,34 +27,16 @@ public class LeitnerTest {
         
         quizCard = new QuizCard(question, answer, falseAnswers);
         leitner = new Leitner();
-        quizTrainer = new Trainer();
-        boxes = leitner.getBoxes();
+        deck = new Deck("Default deck");
+        boxes = deck.getBoxes();
         
-        leitner.addANewCard(quizCard);
+        deck.addANewCard(quizCard);
     }  
-    
-    @Test
-    public void newCardGoesToBoxOne() {
-        Box box1 = boxes.get(0);
-        assertEquals(1, box1.getQuizCards().size());
-    }
-    
-    @Test
-    public void allOtherBoxesAreEmptyAtStart() {
-        int totalSize = 0;
-        
-        for (int i = 1; i < boxes.size(); i++) {
-            Box box = boxes.get(i);
-            totalSize += box.getQuizCards().size();
-            
-        }
-        assertEquals(0, totalSize);
-    }
     
     @Test
     public void rightAnswerMovesTheCardUpOneBox() {
         Box box2 = boxes.get(1);
-        leitner.moveCardUp(quizCard);
+        leitner.moveCardUp(quizCard, deck);
         
         assertEquals(1, box2.getQuizCards().size());
     }
@@ -61,10 +44,10 @@ public class LeitnerTest {
     @Test
     public void wrongAnswerMovesTheCardUpOneBox() {
         Box box1 = boxes.get(0);
-        leitner.moveCardUp(quizCard);
-        leitner.moveCardUp(quizCard);
-        leitner.moveCardUp(quizCard);
-        leitner.moveCardToBoxOne(quizCard);
+        leitner.moveCardUp(quizCard, deck);
+        leitner.moveCardUp(quizCard, deck);
+        leitner.moveCardUp(quizCard, deck);
+        leitner.moveCardToBoxOne(quizCard, deck);
         
         assertEquals(1, box1.getQuizCards().size());
     }
@@ -74,7 +57,7 @@ public class LeitnerTest {
         Box box5 = boxes.get(4);
         
         for (int i = 0; i < 10; i++) {
-            this.leitner.moveCardUp(quizCard);
+            this.leitner.moveCardUp(quizCard, deck);
         }
         
         assertEquals(1, box5.getQuizCards().size());
@@ -84,7 +67,7 @@ public class LeitnerTest {
     public void notAbleToMoveDownWhenCurrentBoxIsOne() {
         Box box1 = boxes.get(0);
         
-        leitner.moveCardToBoxOne(quizCard);
+        leitner.moveCardToBoxOne(quizCard, deck);
         
         assertEquals(1, box1.getQuizCards().size());
     }

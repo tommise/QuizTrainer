@@ -1,7 +1,6 @@
 package quiztrainer.domain;
 
 import java.util.*;
-import quiztrainer.logic.Trainer;
 import quiztrainer.logic.Leitner;
 
 import org.junit.Before;
@@ -9,8 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class QuizCardTest {
+    
     QuizCard quizCard;
-    Trainer quizTrainer;
+    Deck deck;
     Leitner leitner;
 
     @Before
@@ -26,9 +26,9 @@ public class QuizCardTest {
         
         quizCard = new QuizCard(question, answer, falseAnswers);
         leitner = new Leitner();
-        quizTrainer = new Trainer();
+        deck = new Deck("Default deck");
         
-        leitner.addANewCard(quizCard);
+        deck.addANewCard(quizCard);
     }  
     
     @Test
