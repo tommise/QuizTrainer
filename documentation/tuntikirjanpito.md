@@ -11,5 +11,9 @@
 | 25.11 | 4h   | JavaFX:n konfigurointia, ensimmäiset JavaFX ikkunat |
 | 26.11 | 3h   | Koodin siistimistä, JUnit testejä |
 | 26.11 | 2h   | Arkkitehtuurin kirjoittamista |
+| 30.11 | 2h   | User luokan teko, rakenteen järkevöittämistä |
+| 01.12 | 3h   | Ensimmäinen DAO luokka Userista ja tähän liittyvä QuizTrainerService | 
+| 01.12 | 1h   | pom.xml päivittämistä, README:n korjailua |
+| 02.12 | 3h   | JUnit testien korjaamista, käyttöliittymään login ja signup näkymät |
 
-Yhteensä: 28h
+Yhteensä: 37h
