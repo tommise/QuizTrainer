@@ -21,11 +21,11 @@ public class Box {
         return this.boxNumber;
     }
     
-    public void add(QuizCard quizCard) {
+    public void addACard(QuizCard quizCard) {
         quizCards.add(quizCard);
     }
 
-    public void remove(QuizCard quizCard) {
+    public void removeACard(QuizCard quizCard) {
         quizCards.remove(quizCard);
     }  
     
