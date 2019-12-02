@@ -9,7 +9,7 @@ QuizTrainer is a Java based flashcard studying application used in a desktop set
 
 [Työaikakirjanpito](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/tuntikirjanpito.md)
 
-## Instructions
+## Command line instructions
 
 ### Running the program
 Run from the root folder:
@@ -25,12 +25,16 @@ mvn test
 mvn test jacoco:report
 ```
 The report will be found from /target/site/jacoco/index.html
-### Build jar
+### Build and run jar
 ```
 mvn package
 ```
 Generated jar will be found from /target/ under the name QuizTrainer-1.0-SNAPSHOT
-The report will be found from /target/site/apidocs/index.html
+
+```
+java -jar target/QuizTrainer-1.0-SNAPSHOT.jar
+```
+Run jar
 ### Checkstyle
 ```
 mvn jxr:jxr checkstyle:checkstyle
@@ -40,4 +44,5 @@ The report will be found from /target/site/checkstyle.html
 ```
 mvn javadoc:javadoc
 ```
+The report will be found from /target/site/apidocs/index.html
 
