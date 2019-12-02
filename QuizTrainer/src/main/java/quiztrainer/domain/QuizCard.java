@@ -44,4 +44,12 @@ public class QuizCard {
         
         return choices;
     }
+    
+    public String getCorrectAnswerString() {
+        return "Correct! The answer is " + this.correctAnswer + ".";
+    }
+    
+    public String getWrongAnswerString() {
+        return "Wrong. The correct answer is " + this.correctAnswer + ".";
+    }    
 }
