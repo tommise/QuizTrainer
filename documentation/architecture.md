@@ -47,10 +47,10 @@ The main functionalities can be found from packages _quiztrainer.domain_ and _qu
 ![Class diagram](images/class_diagram.png "Class diagram")
 
 The implementation of these classes is straightforward:
-- User can make as many QuizCards as he wishes, one QuizCard will be pointed to one User
-- A quizcard will belong to one unique Box, a box can have as many cards as possible from 0...n.
-- A deck has five different and numerally named boxes, one box will belong to only one deck
-- User can make as many Decks as possible. In the initial stage, all cards go to the "Defaul deck". One deck will belong to one user.
+- User can make as many QuizCards as he wishes, one QuizCard will be pointed to one User.
+- A QuizCard will belong to one unique Box, a Box can have as many cards as possible from 0...n.
+- A Deck has five different and numerally named Boxes, one Box will belong to only one Deck.
+- User can make as many Decks as possible. In the initial stage, all cards go to the "Defaul deck". One Deck will belong to one user.
 
 ### quiztrainer.logic
 
@@ -65,13 +65,6 @@ to Box number 1 (60%).
 - Picks a random QuizCard from the drawn box.
 
 ![QuizCard interval](images/quizcard_interval.png "QuizCard interval")
-
-**Class Trainer:**
-- Adds a card to the leitner system
-- Returns a QuizCard to rehearse if there are QuizCards available
-- Checks whether an answer is right or wrong, updates Leitner and sends the information back to rehearse scene.
-
-_As of now, class Trainer handles much of the work that quiztrainerService DAO object will handle_
 
 ## Data handling
 
