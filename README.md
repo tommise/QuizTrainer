@@ -8,6 +8,8 @@ QuizTrainer is a Java based flashcard studying application used in a desktop set
 [Requirements specifications](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/requirements_specifications.md)
 
 [Työaikakirjanpito](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/tuntikirjanpito.md)
+## Releases
+[Week 5](https://github.com/tommise/ot-harjoitustyo/releases/tag/week5)
 
 ## Command line instructions
 
@@ -16,6 +18,11 @@ Run from the root folder:
 ```
 mvn compile exec:java -Dexec.mainClass=quiztrainer.ui.UserInterface
 ```
+### Running the newest release
+```
+java -jar target/quiztrainer.jar
+```
+Run from the same folder where the newest release is.
 ### Running tests
 ```
 mvn test
@@ -34,7 +41,7 @@ Generated jar will be found from /target/ under the name QuizTrainer-1.0-SNAPSHO
 ```
 java -jar target/QuizTrainer-1.0-SNAPSHOT.jar
 ```
-Run jar
+Run generated jar
 ### Checkstyle
 ```
 mvn jxr:jxr checkstyle:checkstyle
