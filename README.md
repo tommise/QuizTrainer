@@ -20,7 +20,7 @@ mvn compile exec:java -Dexec.mainClass=quiztrainer.ui.UserInterface
 ```
 ### Running the newest release
 ```
-java -jar target/quiztrainer.jar
+java -jar quiztrainer.jar
 ```
 Run from the same folder where the newest release is.
 ### Running tests
