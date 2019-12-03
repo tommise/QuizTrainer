@@ -15,5 +15,7 @@
 | 01.12 | 3h   | Ensimmäinen DAO luokka Userista ja tähän liittyvä QuizTrainerService | 
 | 01.12 | 1h   | pom.xml päivittämistä, README:n korjailua |
 | 02.12 | 3h   | JUnit testien korjaamista, käyttöliittymään login ja signup näkymät |
+| 03.12 | 2h   | Ensimmäinen release, jar toimivuus |
+| 03.12 | 2h   | Arkkitehtuurin korjaamista, sekvenssikaavioiden lisäys |
 
-Yhteensä: 37h
+Yhteensä: 41h
