@@ -17,5 +17,7 @@
 | 02.12 | 3h   | JUnit testien korjaamista, käyttöliittymään login ja signup näkymät |
 | 03.12 | 2h   | Ensimmäinen release, jar toimivuus |
 | 03.12 | 2h   | Arkkitehtuurin korjaamista, sekvenssikaavioiden lisäys |
+| 07.12 | 5h   | QuizCardin SQL integrointia, käyttöliittymän harjoitusnäkymän parannusta |
+| 08.12 | 4h   | Alustava käyttöohje ja JavaDocia pakkauksiin logic, domain ja dao |
 
-Yhteensä: 41h
+Yhteensä: 50h
