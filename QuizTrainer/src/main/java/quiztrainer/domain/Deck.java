@@ -100,7 +100,7 @@ public class Deck {
      * @return next QuizCard to be rehearsed.
      */
     
-    public QuizCard getNextQuestion() {
+    public QuizCard drawNextQuestion() {
         int totalSize = 0;
             
         for (Box box: boxes) {

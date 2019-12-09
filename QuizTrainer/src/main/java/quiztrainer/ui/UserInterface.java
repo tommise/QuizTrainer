@@ -261,7 +261,7 @@ public class UserInterface extends Application {
         rehearsePane.getChildren().addAll(question, answerPane, resultLabel, returnFromRehearseButton);
         
         primaryRehearseButton.setOnAction(e-> {
-            QuizCard quizCard = deck.getNextQuestion();
+            QuizCard quizCard = deck.drawNextQuestion();
             if (quizCard == null) {
                 errorLabel.setText("There are no cards to rehearse.");
                 errorLabel.setTextFill(Color.RED);             
@@ -320,7 +320,7 @@ public class UserInterface extends Application {
         });        
         
         nextQuestionButton.setOnAction(e-> {
-            QuizCard nextCard = deck.getNextQuestion();
+            QuizCard nextCard = deck.drawNextQuestion();
             question.setText(nextCard.getQuestion());
             ArrayList<String> nextCardChoices = nextCard.generateChoices();
             answer1Button.setText(nextCardChoices.get(0));
