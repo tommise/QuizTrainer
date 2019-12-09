@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 public class UserInterface extends Application {
     private QuizTrainerService trainer;
+    private Deck deck;
     
     private Scene startingScene;
     private Scene loginScene;
@@ -36,7 +37,6 @@ public class UserInterface extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GUIHelper guiHelper = new GUIHelper();
-        Deck deck = new Deck("Default deck");
         
         // Starting scene
         
@@ -78,6 +78,7 @@ public class UserInterface extends Application {
                 usernameInput.setText("");
                 loginWarning.setText("");
                 currentUserLabel.setText("Welcome " + trainer.getCurrentUser().getName() + "!");
+                deck = this.trainer.initDeck();
                 primaryStage.setScene(mainScene);  
             } else {
                 loginWarning.setText("User does not exist.");
@@ -149,6 +150,7 @@ public class UserInterface extends Application {
 
         logoutButton.setOnAction(e-> {
             trainer.logout();
+            deck = null;
             currentUserLabel.setText("");
             primaryStage.setScene(startingScene);
         });
@@ -207,7 +209,8 @@ public class UserInterface extends Application {
             inputs.add(wrongChoice3Input.getText());       
             
             if (guiHelper.inputsAreValid(inputs)) {
-                QuizCard newQuizCard = new QuizCard(question, answer, choices);
+                QuizCard newQuizCard = new QuizCard(question, answer, choices, 1);
+                this.trainer.addANewQuizCard(newQuizCard);                
                 deck.addANewCard(newQuizCard);
                 newQuestionInput.setText("");
                 newAnswerInput.setText("");
@@ -235,7 +238,7 @@ public class UserInterface extends Application {
         });
         
         addANewCardPane.getChildren().addAll(newQuestionPane, newAnswerPane, wrongChoicesPane, addButtonsPane);
-                
+               
         // Scene for rehearsing 
         
         VBox rehearsePane = new VBox(20);
@@ -255,8 +258,7 @@ public class UserInterface extends Application {
         Label resultLabel = new Label("");
         Button nextQuestionButton = new Button("Next question ->");
         Button returnFromRehearseButton = new Button("<- Return to menu");
-        
-        rehearsePane.getChildren().addAll(question, answerPane, resultLabel, nextQuestionButton, returnFromRehearseButton); 
+        rehearsePane.getChildren().addAll(question, answerPane, resultLabel, returnFromRehearseButton);
         
         primaryRehearseButton.setOnAction(e-> {
             QuizCard quizCard = deck.getNextQuestion();
@@ -278,31 +280,43 @@ public class UserInterface extends Application {
         answer1Button.setOnAction(e-> {
             String answer = answer1Button.getText();
             QuizCard quizCard = deck.getACard(question.getText());
-            if (quizCard.isCorrectAnswer(answer)) {
-                resultLabel.setText(trainer.correctAnswer(quizCard, deck));             
-            } else {
-                resultLabel.setText(trainer.wrongAnswer(quizCard, deck));
+            if (quizCard.isCorrectAnswer(answer)) {  
+                this.trainer.correctAnswer(quizCard, deck);                
+                resultLabel.setText(quizCard.getCorrectAnswerString());
+            } else {     
+                this.trainer.wrongAnswer(quizCard, deck);
+                resultLabel.setText(quizCard.getWrongAnswerString());
             }
+            rehearsePane.getChildren().add(3, nextQuestionButton);
+            rehearsePane.getChildren().remove(answerPane);
         });
         
         answer2Button.setOnAction(e-> {
             String answer = answer2Button.getText();     
             QuizCard quizCard = deck.getACard(question.getText());
             if (quizCard.isCorrectAnswer(answer)) {
-                resultLabel.setText(trainer.correctAnswer(quizCard, deck));
+                this.trainer.correctAnswer(quizCard, deck);                
+                resultLabel.setText(quizCard.getCorrectAnswerString());
             } else {
-                resultLabel.setText(trainer.wrongAnswer(quizCard, deck));
+                this.trainer.wrongAnswer(quizCard, deck);                
+                resultLabel.setText(quizCard.getWrongAnswerString());
             } 
+            rehearsePane.getChildren().add(3, nextQuestionButton);
+            rehearsePane.getChildren().remove(answerPane);        
         });
 
         answer3Button.setOnAction(e-> {
             String answer = answer3Button.getText();  
             QuizCard quizCard = deck.getACard(question.getText());            
             if (quizCard.isCorrectAnswer(answer)) {
-                resultLabel.setText(trainer.correctAnswer(quizCard, deck));
+                this.trainer.correctAnswer(quizCard, deck);                
+                resultLabel.setText(quizCard.getCorrectAnswerString());
             } else {
-                resultLabel.setText(trainer.wrongAnswer(quizCard, deck));
+                this.trainer.wrongAnswer(quizCard, deck);
+                resultLabel.setText(quizCard.getWrongAnswerString());
             }  
+            rehearsePane.getChildren().add(3, nextQuestionButton);
+            rehearsePane.getChildren().remove(answerPane);
         });        
         
         nextQuestionButton.setOnAction(e-> {
@@ -313,6 +327,8 @@ public class UserInterface extends Application {
             answer2Button.setText(nextCardChoices.get(1)); 
             answer3Button.setText(nextCardChoices.get(2));
             resultLabel.setText("");
+            rehearsePane.getChildren().add(1, answerPane);
+            rehearsePane.getChildren().remove(nextQuestionButton);
         });
         
         returnFromRehearseButton.setOnAction(e-> {
