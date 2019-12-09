@@ -12,11 +12,18 @@ public class CardInterval {
         this.random = new Random();
     }
     
+    /**
+     * Draws a random card from the box which was chosen 
+     * with a method drawACardFromBoxes().
+     *
+     * @param   boxes   All boxes in an ArrayList
+     * 
+     * @return random QuizCard from a drawn box
+     */
+    
     public QuizCard drawANewCard(ArrayList<Box> boxes) {
         
         int nextBox = drawACardFromBoxes(boxes);
-        
-        // Pick a random card from the box
         
         for (Box box : boxes) {
             if (nextBox == box.getBoxNumber()) {
@@ -28,22 +35,30 @@ public class CardInterval {
         return null;
     }
     
+     /**
+     * Draws a random box from 1...5 based on the probabilities 
+     * 60% (Box 1), 20% (Box 2), 10% (Box 3), 5% (Box 4), 5% (Box 5).
+     * If a box is empty a new draw will be made.
+     * 
+     * @param   boxes   All boxes in an ArrayList
+     * 
+     * @return random box number as an int based on the probabilities
+     */
+    
     public int drawACardFromBoxes(ArrayList<Box> boxes) {
-        
-        /// The cards will be drawn from the boxes with probabilities of 60%, 20%, 10%, 5%, 5%
         
         while (true) {
             int drawPercentage = this.random.nextInt(100);
             
-            if (drawPercentage < 60 && !boxes.get(0).getQuizCards().isEmpty()) { // Box 1 60%
+            if (drawPercentage < 60 && !boxes.get(0).getQuizCards().isEmpty()) {
                 return 1;
-            } else if (drawPercentage < 80 && !boxes.get(1).getQuizCards().isEmpty()) { // Box 2 20%
+            } else if (drawPercentage < 80 && !boxes.get(1).getQuizCards().isEmpty()) {
                 return 2;
-            } else if (drawPercentage < 90 && !boxes.get(2).getQuizCards().isEmpty()) { // Box 3 10%
+            } else if (drawPercentage < 90 && !boxes.get(2).getQuizCards().isEmpty()) {
                 return 3;
-            } else if (drawPercentage < 95 && !boxes.get(3).getQuizCards().isEmpty()) { // Box 4 5%
+            } else if (drawPercentage < 95 && !boxes.get(3).getQuizCards().isEmpty()) {
                 return 4;
-            } else { // Box 5 5%
+            } else {
                 if (!boxes.get(4).getQuizCards().isEmpty()) {
                     return 5;
                 }
