@@ -1,21 +1,30 @@
 
 package quiztrainer.domain;
 
+import java.util.List;
 import quiztrainer.dao.Database;
-import quiztrainer.dao.FileUserDao;
 import quiztrainer.dao.UserDao;
+import quiztrainer.dao.QuizCardDao;
+
+import quiztrainer.dao.FileUserDao;
+import quiztrainer.dao.FileQuizCardDao;
+
 import quiztrainer.logic.Leitner;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class QuizTrainerService {
     
-    private UserDao userDao;
     private Database database;
+    private UserDao userDao;
+    private QuizCardDao quizCardDao;
     
+    private Deck deck;
     private Leitner leitner;
     private User currentUser;
+    private int currentUserId;
     
     public QuizTrainerService() {
         
@@ -26,11 +35,21 @@ public class QuizTrainerService {
         }
         
         this.userDao = new FileUserDao(database);
+        this.quizCardDao = new FileQuizCardDao(database);
+        
+        this.deck = new Deck("Default deck");
         this.leitner = new Leitner();
         this.currentUser = null;
-        
-        addANewUser("testi", "testinimi");
     }
+    
+    /**
+     * Adding a new user to the database.
+     *
+     * @param   username   Username which was chosen by the user.
+     * @param   name   Name which was chosen by the user.
+     * 
+     * @return true if user was successfully added.
+     */
     
     public boolean addANewUser(String username, String name) {
         
@@ -49,6 +68,16 @@ public class QuizTrainerService {
         } 
     }
     
+    /**
+     * Logging user in. 
+     * The user will be logged in if given username is
+     * found with userDao.findByUsername() method.
+     *
+     * @param   username   Username to be logged in.
+     * 
+     * @return true if user was successfully found.
+     */    
+    
     public boolean login(String username) {       
         User user = userDao.findByUsername(username);          
         
@@ -56,6 +85,7 @@ public class QuizTrainerService {
             return false;
         }
         
+        currentUserId = userDao.getIdByUsername(username);
         currentUser = user; 
         return true;
     }
@@ -68,13 +98,98 @@ public class QuizTrainerService {
         return currentUser;
     }
     
-    public String correctAnswer(QuizCard quizCard, Deck deck) {
-        this.leitner.moveCardUp(quizCard, deck);
-        return quizCard.getCorrectAnswerString();
+     /**
+     * Adding a new QuizCard.
+     * If given quizCard was not found within the database,
+     * a quizCard will be added to the database with
+     * quizCardDao.create() method.
+     *
+     * @param   quizCard   QuizCard to be added to the database.
+     * 
+     * @return true if QuizCard was successfully added.
+     */  
+    
+    public boolean addANewQuizCard(QuizCard quizCard) {
+        
+        if (quizCardDao.findByQuestion(quizCard.getQuestion()) != null) {
+            return false;
+        }
+        
+        try {
+            quizCardDao.create(quizCard, currentUserId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } 
     }
     
-    public String wrongAnswer(QuizCard quizCard, Deck deck) {
-        this.leitner.moveCardToBoxOne(quizCard, deck);
-        return quizCard.getWrongAnswerString();
-    }      
+     /**
+     * User has answered a QuizCard right.
+     * Moves a QuizCard to a higher box within the database
+     * with method quizCardDao.setBox()
+     * 
+     * @param   quizCard   QuizCard to be moved to a different box in the database.
+     * @param   currentDeck   Current deck to be passed to the Leitner object.
+     */ 
+    
+    public void correctAnswer(QuizCard quizCard, Deck currentDeck) {
+        int moveCardToBox = quizCard.getBoxNumber() +1;
+        
+        if (moveCardToBox > 5) {
+            return;
+        }
+        
+        quizCard.setBoxNumber(moveCardToBox);
+        this.leitner.moveCardUp(quizCard, currentDeck);
+        
+        int quizCardId = this.quizCardDao.getIdByQuestion(quizCard.getQuestion());
+
+        try {
+            this.quizCardDao.setBox(quizCardId, moveCardToBox);
+        } catch (Exception e) {
+            return;
+        } 
+    }
+    
+     /**
+     * User has answered a QuizCard wrong.
+     * Moves a QuizCard to box number one within the database
+     * with method quizCardDao.setBox()
+     * 
+     * @param   quizCard   QuizCard to be moved to a different box in the database.
+     * @param   currentDeck   Current deck to be passed to the Leitner object.
+     */  
+    
+    public void wrongAnswer(QuizCard quizCard, Deck currentDeck) {
+        int moveCardToBoxOne = 1;
+        quizCard.setBoxNumber(moveCardToBoxOne);
+        this.leitner.moveCardToBoxOne(quizCard, currentDeck);        
+        
+        int quizCardId = this.quizCardDao.getIdByQuestion(quizCard.getQuestion());
+        
+        try {
+            this.quizCardDao.setBox(quizCardId, moveCardToBoxOne);
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
+    }
+    
+     /**
+     * Initializing the deck.
+     * Initializes the default deck by
+     * calling quizCardDao.getAllQuizCards(currentUserId)
+     * and adding them locally to the Deck object.
+     * 
+     * @return global default Deck.
+     */  
+    
+    public Deck initDeck() {
+        List<QuizCard> allQuizCards = this.quizCardDao.getAllQuizCards(currentUserId);
+
+        for (QuizCard quizCard : allQuizCards) {
+            deck.addACard(quizCard, quizCard.getBoxNumber());
+        }
+        
+        return this.deck;
+    }
 }

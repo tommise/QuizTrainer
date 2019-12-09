@@ -6,19 +6,29 @@ import java.util.Collections;
 
 public class QuizCard {
     
+    int boxNumber;
     String question;
     String correctAnswer;
     ArrayList<String> falseAnswers;
 
-    public QuizCard(String question, String correctAnswer, ArrayList<String> falseAnswers) {
+    public QuizCard(String question, String correctAnswer, ArrayList<String> falseAnswers, int boxNumber) {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.falseAnswers = falseAnswers;
+        this.boxNumber = boxNumber;
     }
     
     public String getQuestion() {
         return this.question;
     }
+    
+    public int getBoxNumber() {
+        return this.boxNumber;
+    }
+    
+    public int setBoxNumber(int boxNumber) {
+        return this.boxNumber = boxNumber;
+    }    
     
     public Boolean isCorrectAnswer(String answer) {
         return answer.equals(this.correctAnswer);
@@ -31,6 +41,14 @@ public class QuizCard {
     public String getCorrectAnswer() {
         return this.correctAnswer;
     }
+    
+     /**
+     * Generates three answer choices to choose from.
+     * A correct answer and two random false answers
+     * will be shuffled and given to the user to choose from.
+     * 
+     * @return an ArrayList of three possible choices as Strings.
+     */  
     
     public ArrayList<String> generateChoices() {
         ArrayList<String> choices = new ArrayList<>();
