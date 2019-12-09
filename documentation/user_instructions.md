@@ -16,7 +16,7 @@ Once the app has been launched, you will be forwarded to the starting screen. If
 ### Signup
 Creating a new account is straightforward, fill in your username and name on their corresponding fields and press _Signup_ button. If the username is valid, being it is not already taken or in invalid form you will be notified with a message that user has been created.
 
-![Signup scene](images/singup_scene.png "Signup scene")
+![Signup scene](images/signup_scene.png "Signup scene")
 
 ### Login
 Now that you have an account, you can login by providing your username to the username field and pressing _Login_ button.
