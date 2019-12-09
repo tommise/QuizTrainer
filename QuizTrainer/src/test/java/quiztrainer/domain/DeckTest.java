@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package quiztrainer.domain;
 
 import quiztrainer.logic.Leitner;
-
 
 import java.util.ArrayList;
 import org.junit.After;
@@ -15,7 +10,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 
 public class DeckTest {
     
@@ -33,7 +27,7 @@ public class DeckTest {
         falseAnswers.add("Oslo");
         falseAnswers.add("Shanghai");
         
-        quizCard = new QuizCard(question, answer, falseAnswers);
+        quizCard = new QuizCard(question, answer, falseAnswers, 1);
         leitner = new Leitner();
         deck = new Deck("Default deck");
         boxes = deck.getBoxes();       

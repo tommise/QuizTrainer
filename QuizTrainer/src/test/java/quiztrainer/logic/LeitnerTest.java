@@ -25,7 +25,7 @@ public class LeitnerTest {
         falseAnswers.add("Oslo");
         falseAnswers.add("Shanghai");
         
-        quizCard = new QuizCard(question, answer, falseAnswers);
+        quizCard = new QuizCard(question, answer, falseAnswers, 1);
         leitner = new Leitner();
         deck = new Deck("Default deck");
         boxes = deck.getBoxes();

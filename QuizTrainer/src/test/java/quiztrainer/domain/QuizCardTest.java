@@ -1,3 +1,4 @@
+
 package quiztrainer.domain;
 
 import java.util.*;
@@ -24,7 +25,7 @@ public class QuizCardTest {
         falseAnswers.add("Stockholm");   
         falseAnswers.add("Tallinn");         
         
-        quizCard = new QuizCard(question, answer, falseAnswers);
+        quizCard = new QuizCard(question, answer, falseAnswers, 1);
         leitner = new Leitner();
         deck = new Deck("Default deck");
         

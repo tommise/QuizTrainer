@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package quiztrainer.domain;
 
 import quiztrainer.logic.Leitner;
@@ -32,7 +28,7 @@ public class BoxTest {
         falseAnswers.add("Oslo");
         falseAnswers.add("Shanghai");
         
-        quizCard = new QuizCard(question, answer, falseAnswers);
+        quizCard = new QuizCard(question, answer, falseAnswers, 1);
 
         int boxNumber = 1;
         box1 = new Box(boxNumber);
