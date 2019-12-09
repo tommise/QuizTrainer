@@ -74,4 +74,19 @@ public class DeckTest {
         
         assertEquals(4, boxNumber);
     }
+    
+    @Test
+    public void nextQuestionDrawReturnsNullIfBoxesAreEmpty() {
+        QuizCard nextQuizCard = deck.drawNextQuestion();
+        
+        assertNull(nextQuizCard);
+    }  
+    
+    @Test
+    public void nextQuestionDrawReturnsQuizCard() {
+        deck.addACard(quizCard, 4);
+        QuizCard nextQuizCard = deck.drawNextQuestion();
+        
+        assertNotNull(nextQuizCard);
+    }     
 }

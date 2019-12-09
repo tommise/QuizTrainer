@@ -21,8 +21,6 @@ public class CardIntervalTest {
     CardInterval interval;
     ArrayList<Box> boxes;    
     Deck deck;
-    Box box1;
-    Box box4;
     
     @Before
     public void setUp() {
@@ -47,15 +45,18 @@ public class CardIntervalTest {
         leitner = new Leitner();
         deck = new Deck("Default deck");
         interval = new CardInterval();
+
+        deck.addACard(quizCard1, 1);
+        deck.addACard(quizCard1, 2);
+        deck.addACard(quizCard1, 3);
+        deck.addACard(quizCard2, 4);        
+        deck.addACard(quizCard2, 5);
+        
         boxes = deck.getBoxes();
-        box1 = boxes.get(0);
-        box4 = boxes.get(3);
     }
     
     @Test
     public void drawsARandomCardFromBoxes() {
-        deck.addACard(quizCard1, 1);
-        deck.addACard(quizCard2, 4);
         
         QuizCard drawnCard = interval.drawANewCard(boxes);
         
@@ -67,4 +68,94 @@ public class CardIntervalTest {
         
         assertTrue(cardDrawn);
     }
+    
+    @Test
+    public void drawsBoxOneWithAtLeastFiftyPercentOfTheTime() {
+        
+        int boxOneCount = 0;
+                
+        for (int i = 0; i <= 10000000; i++) {
+            int nextBox = interval.drawACardFromBoxes(boxes);
+            
+            if (nextBox == 1) {
+                boxOneCount++;
+            }
+        }
+        
+        int boxOnePercentage = boxOneCount / 100000;
+        
+        assertTrue(boxOnePercentage >= 50);
+    }
+    
+    @Test
+    public void drawsBoxTwoWithAtLeastFifteenPercentOfTheTime() {
+        
+        int boxTwoCount = 0;
+                
+        for (int i = 0; i <= 10000000; i++) {
+            int nextBox = interval.drawACardFromBoxes(boxes);
+            
+            if (nextBox == 2) {
+                boxTwoCount++;
+            }
+        }
+        
+        int boxTwoPercentage = boxTwoCount / 100000;
+        
+        assertTrue(boxTwoPercentage >= 15);
+    }    
+    
+    @Test
+    public void drawsBoxThreeWithAtLeastSevenPercentOfTheTime() {
+        
+        int boxThreeCount = 0;
+                
+        for (int i = 0; i <= 10000000; i++) {
+            int nextBox = interval.drawACardFromBoxes(boxes);
+            
+            if (nextBox == 3) {
+                boxThreeCount++;
+            }
+        }
+        
+        int boxThreePercentage = boxThreeCount / 100000;
+        
+        assertTrue(boxThreePercentage >= 7);
+    }  
+    
+    @Test
+    public void drawsBoxFourWithAtLeastTwoPercentOfTheTime() {
+        
+        int boxFourCount = 0;
+                
+        for (int i = 0; i <= 10000000; i++) {
+            int nextBox = interval.drawACardFromBoxes(boxes);
+            
+            if (nextBox == 4) {
+                boxFourCount++;
+            }
+        }
+        
+        int boxFourPercentage = boxFourCount / 100000;
+        
+        assertTrue(boxFourPercentage >= 2);
+    } 
+
+    @Test
+    public void drawsBoxFiveWithAtLeastTwoPercentOfTheTime() {
+        
+        int boxFiveCount = 0;
+                
+        for (int i = 0; i <= 10000000; i++) {
+            int nextBox = interval.drawACardFromBoxes(boxes);
+            
+            if (nextBox == 5) {
+                boxFiveCount++;
+            }
+        }
+        
+        int boxFivePercentage = boxFiveCount / 100000;
+        
+        assertTrue(boxFivePercentage >= 2);
+    }     
 }
