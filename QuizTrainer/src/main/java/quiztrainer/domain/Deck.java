@@ -33,9 +33,20 @@ public class Deck {
         this.boxes.add(box5);  
     }
     
+     /**
+     * Adds a new card to box number one.
+     */ 
+    
     public void addANewCard(QuizCard card) {
         this.box1.addACard(card);
     }
+    
+     /**
+     * Adds a card to a given box.
+     * 
+     * @param card  A QuizCard to be added to a different box.
+     * @param boxNumber A Box number where the QuizCard is going to be added.
+     */ 
     
     public void addACard(QuizCard card, int boxNumber) {
         
@@ -79,6 +90,15 @@ public class Deck {
         
         return null;
     }
+    
+     /**
+     * Fetches a next card to be rehearsed.
+     * If there are cards available uses 
+     * interval.drawANewCard() with the help
+     * of object from the CardInterval class.
+     * 
+     * @return next QuizCard to be rehearsed.
+     */
     
     public QuizCard getNextQuestion() {
         int totalSize = 0;
