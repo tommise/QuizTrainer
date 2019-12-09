@@ -13,6 +13,13 @@ public class FileUserDao implements UserDao {
         this.db = db;
     }
     
+     /**
+     * Creates a new user in to the database.
+     * 
+     * @param user  user object to be added in to the database.
+     * @return created user object.
+     */
+    
     @Override
     public User create(User user) throws Exception, SQLException {
         String username = user.getUsername();
@@ -31,6 +38,52 @@ public class FileUserDao implements UserDao {
         
         return newUser;
     }   
+    
+     /**
+     * Searches and returns an id of the user
+     * based on username.
+     * 
+     * @param username  username as a String to be searched.
+     * @return id of the user as an integer.
+     */
+    
+    @Override
+    public int getIdByUsername(String username) {
+        int userId;
+        
+        try {
+            Connection dbConnection = db.getConnection();
+            PreparedStatement findUserIdStatement = dbConnection.prepareStatement("SELECT id FROM User WHERE username = ?");
+            findUserIdStatement.setString(1, username);
+
+            ResultSet rs = findUserIdStatement.executeQuery();
+
+            if (rs.next()) {
+                userId = rs.getInt("id");
+            } else {
+                return -1;
+            }
+
+            findUserIdStatement.close();
+            rs.close();
+            dbConnection.close();  
+            
+            return userId;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return -1;
+    }
+    
+     /**
+     * Searches and returns an User object
+     * based on given username.
+     * 
+     * @param username  username as a String to be searched.
+     * @return found User object if successful.
+     */
     
     @Override
     public User findByUsername(String username) {
@@ -61,7 +114,14 @@ public class FileUserDao implements UserDao {
         
         return null;
     }
-      
+    
+     /**
+     * Searches and returns all User objects
+     * in the database.
+     * 
+     * @return all found users in an ArrayList
+     */
+    
     @Override
     public List<User> getAll() {
         ArrayList allUsers = new ArrayList();
@@ -88,5 +148,4 @@ public class FileUserDao implements UserDao {
         
         return null;
     }
-
 }
