@@ -256,14 +256,15 @@ public class UserInterface extends Application {
         VBox quizCardListingPane = new VBox(20);
         quizCardListingPane.setPadding(new Insets(20));
         quizCardListingPane.setPadding(new Insets(20));
-        Button returnFromListingButton = new Button("<- Return to menu");        
+        Button returnFromListingButton = new Button("<- Return to menu");  
+        Label listLabel = new Label("Listing all your QuizCards:");
         listingScene = new Scene(quizCardListingPane, 500, 500);
         
         quizCardNodes = new VBox(10);
         ScrollPane quizCardScrollPane = new ScrollPane();
         quizCardScrollPane.setContent(quizCardNodes);
         
-        quizCardListingPane.getChildren().addAll(quizCardScrollPane, returnFromListingButton);
+        quizCardListingPane.getChildren().addAll(listLabel, quizCardScrollPane, returnFromListingButton);
         
         returnFromListingButton.setOnAction(e-> {
             primaryStage.setScene(mainScene);

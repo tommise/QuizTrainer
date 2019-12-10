@@ -19,7 +19,7 @@ Creating a new account is straightforward, fill in your username and name on the
 ![Signup scene](images/signup_scene.png "Signup scene")
 
 ### Login
-Now that you have an account, you can login by providing your username to the username field and pressing _Login_ button.
+Now that you have an account, you can login from by providing your username to the username field and pressing _Login_ button.
 
 ![Login scene](images/login_scene.png "Login scene")
 
@@ -27,6 +27,7 @@ Now that you have an account, you can login by providing your username to the us
 
 After login, you will be forwarded to the main scene. You have the following options:
 - If you wish to create a new QuizCard, press _Add a new card_ button.
+- If you wish to list all your made QuizCards, press _My cards_ button.
 - If you wish to rehearse made QuizCards, press _Rehearse_ button.
 
 ![Main scene](images/main_scene.png "Main scene")
@@ -35,6 +36,11 @@ After login, you will be forwarded to the main scene. You have the following opt
 When adding a new card, you will be asked to type the question, right answer and three false but probable answers. When you have filled the required forms, you can create the card by pressing _Add a new question_ button.
 
 ![Adding a new card scene](images/addnewcard_scene.png "Adding a new card scene")
+
+### My cards
+You will be provided a list of QuizCards you have made with question and right answer.
+
+![My cards scene](images/my_cards_scene.png "My cards scene")
 
 ### Rehearsing QuizCards
 
