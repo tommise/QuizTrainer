@@ -20,5 +20,6 @@
 | 07.12 | 5h   | QuizCardin SQL integrointia, käyttöliittymän harjoitusnäkymän parannusta |
 | 08.12 | 4h   | Alustava käyttöohje ja JavaDocia pakkauksiin logic, domain ja dao |
 | 08.12 | 2h   | JUnit testauksien päivittelyä |
+| 10.12 | 1h   | JUnit testejä QuizTrainerServicelle |
 
-Yhteensä: 52h
+Yhteensä: 53h
