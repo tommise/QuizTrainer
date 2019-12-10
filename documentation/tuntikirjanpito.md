@@ -21,5 +21,6 @@
 | 08.12 | 4h   | Alustava käyttöohje ja JavaDocia pakkauksiin logic, domain ja dao |
 | 08.12 | 2h   | JUnit testauksien päivittelyä |
 | 10.12 | 2h   | JUnit testejä QuizTrainerServicelle,  UI muutoksia|
+| 10.12 | 2h   | Arkkitehtuuritiedoston muokkaamista, sekvenssikaavion lisäys |
 
-Yhteensä: 53h
+Yhteensä: 55h
