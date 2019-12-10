@@ -69,12 +69,9 @@ public class FileUserDao implements UserDao {
             dbConnection.close();  
             
             return userId;
-            
         } catch (Exception e) {
-            System.out.println(e);
+            return -1;
         }
-        
-        return -1;
     }
     
      /**
@@ -109,10 +106,8 @@ public class FileUserDao implements UserDao {
             return foundUser;
             
         } catch (Exception e) {
-            System.out.println(e);
+            return null;
         }
-        
-        return null;
     }
     
      /**

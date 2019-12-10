@@ -16,12 +16,12 @@ public class FileQuizCardDao implements QuizCardDao {
      * Stores a new QuizCard to the database.
      * 
      * @param quizCard  A QuizCard object which was made by the user.
-     * @param user_id   Current user id
+     * @param userId   Current user id
      * @return created QuizCard object
      */
     
     @Override
-    public QuizCard create(QuizCard quizCard, int user_id) throws Exception, SQLException {
+    public QuizCard create(QuizCard quizCard, int userId) throws Exception, SQLException {
         int boxNumber = 1;
         String question = quizCard.getQuestion();
         String rightAnswer = quizCard.getCorrectAnswer();
@@ -34,7 +34,7 @@ public class FileQuizCardDao implements QuizCardDao {
         PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("INSERT INTO QuizCard"
                 + " (user_id, boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?)");
-        createNewQuizCardStatement.setInt(1, user_id); 
+        createNewQuizCardStatement.setInt(1, userId); 
         createNewQuizCardStatement.setInt(2, boxNumber); 
         createNewQuizCardStatement.setString(3, question); 
         createNewQuizCardStatement.setString(4, rightAnswer);
@@ -95,10 +95,8 @@ public class FileQuizCardDao implements QuizCardDao {
             return foundQuizCard;
             
         } catch (Exception e) {
-            System.out.println(e);
+            return null;
         }
-        
-        return null;
     }
     
     
@@ -144,10 +142,8 @@ public class FileQuizCardDao implements QuizCardDao {
             return allQuizCards;  
             
         } catch (Exception e) {
-            System.out.println(e);
+            return null;
         }
-        
-        return null;
     }    
     
      /**
@@ -208,9 +204,7 @@ public class FileQuizCardDao implements QuizCardDao {
             return quizCardId;
             
         } catch (Exception e) {
-            System.out.println(e);
+            return -1;
         }
-        
-        return -1;
     }
 }

@@ -11,7 +11,7 @@ public interface QuizCardDao {
     
     void setBox(int quizCardId, int boxNumber);
 
-    List<QuizCard> getAllQuizCards(int user_id);
+    List<QuizCard> getAllQuizCards(int userId);
     
     int getIdByQuestion(String question);    
 }
