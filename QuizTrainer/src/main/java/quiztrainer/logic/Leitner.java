@@ -35,6 +35,7 @@ public class Leitner {
                 box.addACard(card);
             }
         }
+        card.setBoxNumber(nextBox);
     }
     
     /**
@@ -54,7 +55,7 @@ public class Leitner {
         }
         
         currentBox.removeACard(card);
-        
-        currentDeck.addACard(card, 1); 
+        currentDeck.addACard(card, 1);
+        card.setBoxNumber(1);
     }
 }
