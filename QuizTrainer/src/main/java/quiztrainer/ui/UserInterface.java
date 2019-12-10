@@ -31,7 +31,7 @@ public class UserInterface extends Application {
     
     @Override
     public void init() throws Exception {
-        this.trainer = new QuizTrainerService();
+        this.trainer = new QuizTrainerService("jdbc:sqlite:quiztrainer.db");
     }
     
     @Override
