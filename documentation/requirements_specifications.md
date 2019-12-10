@@ -17,25 +17,23 @@ There is one type of user which is a registered user. Unregistered users can reg
 
 ### After login
 
-User will see four options “Add a card, Rehearse, My cards and Log out”:
+User will see four options “Add a card, Rehearse, My cards and Log out”: _(Task done)_
 
 #### Add a card:
-- User can add a new flashcard. While adding a new flashcard, it is required to add a question, a correct answer and x amount of possible other choices. The flashcard will be added to a default deck. _(*Task done)_
+- User can add a new flashcard. While adding a new flashcard, it is required to add a question, a correct answer and x amount of possible other choices. The flashcard will be added to a default deck. _(Task done)_
 
 #### Rehearse:
 
-- User will be given a random flashcard from the default deck using Leitner system logic. _(*Task done)_
-- User has few possible answers to choose from. After the user has answered, correct answer will be shown. Depending on the answer, the card “difficulty” will be updated and the card will be moved to a different box. If the answer is incorrect, the card will be rehearsed more frequently (moved to a lower box) than the card which was correctly answered. _(*Task done)_
+- User will be given a random flashcard from the default deck using Leitner system logic. _(Task done)_
+- User has few possible answers to choose from. After the user has answered, correct answer will be shown. Depending on the answer, the card “difficulty” will be updated and the card will be moved to a different box. If the answer is incorrect, the card will be rehearsed more frequently (moved to a lower box) than the card which was correctly answered. _(Task done)_
 
 #### My cards:
 
-- User can view what cards are in the default deck.
+- User can view what cards are in the default deck. _(Task done)_
 
 #### Log out:
 
 - User can log out which will bring the view back to the starting scene. _(Task done)_
-
-_Tasks that are marked as done with a star(*), are done to a point where the data is not permanently stored yet._
 
 ## Further development
 
