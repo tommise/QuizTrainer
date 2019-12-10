@@ -14,6 +14,8 @@ QuizTrainer is a Java based flashcard studying application used in a desktop set
 ## Releases
 [Week 5](https://github.com/tommise/ot-harjoitustyo/releases/tag/week5)
 
+[Week 6](https://github.com/tommise/ot-harjoitustyo/releases/tag/week6)
+
 ## Command line instructions
 
 ### Running the program
@@ -21,11 +23,11 @@ Run from the root folder:
 ```
 mvn compile exec:java -Dexec.mainClass=quiztrainer.ui.UserInterface
 ```
-### Running the newest release
+### Running the latest release
 ```
 java -jar quiztrainer.jar
 ```
-Run from the same folder where the newest release is.
+Run from the same folder where the latest release is located.
 ### Running tests
 ```
 mvn test
