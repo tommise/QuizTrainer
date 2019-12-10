@@ -3,8 +3,6 @@ package quiztrainer.domain;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,23 +17,23 @@ import quiztrainer.dao.UserDao;
 
 public class QuizTrainerServiceTest {
     
+    Deck deck;
     Database database;
     UserDao userDao;
     QuizCardDao quizCardDao;
     QuizCard quizCardOne;
     QuizCard quizCardTwo;
     String quizCardOneQuestion;
+    String quizCardTwoQuestion;    
+    QuizTrainerService quizTrainerService;
        
     @Before
     public void setUp() {
-        try {     
-            this.database = new Database("jdbc:sqlite:quiztrainerTest.db");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(QuizTrainerService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        this.quizTrainerService = new QuizTrainerService("jdbc:sqlite:quiztrainerTest.db");
+        this.database = quizTrainerService.database;
         this.userDao = new FileUserDao(database);
         this.quizCardDao = new FileQuizCardDao(database);
+        this.deck = new Deck("Default deck");
         
         quizCardOneQuestion = "What is the capital city of Finland?";
         String answer = "Helsinki";
@@ -43,17 +41,21 @@ public class QuizTrainerServiceTest {
         falseAnswers.add("Tokyo");
         falseAnswers.add("Oslo");
         falseAnswers.add("Shanghai");         
-        
         quizCardOne = new QuizCard(quizCardOneQuestion, answer, falseAnswers, 1);
         
-        String question2 = "What is the capital city of Sweden?";
+        quizCardTwoQuestion = "What is the capital city of Sweden?";
         String answer2 = "Stockholm";
         ArrayList<String> falseAnswers2 = new ArrayList<>();
         falseAnswers2.add("Helsinki");
         falseAnswers2.add("Oslo");
         falseAnswers2.add("Shanghai");    
         
-        quizCardTwo = new QuizCard(question2, answer2, falseAnswers2, 1);
+        quizCardTwo = new QuizCard(quizCardTwoQuestion, answer2, falseAnswers2, 1);        
+        
+        this.deck.addACard(quizCardOne, 3); 
+        this.deck.addACard(quizCardTwo, 3); 
+        this.quizCardOne.setBoxNumber(3);
+        this.quizCardTwo.setBoxNumber(3);        
     }
     
     @After
@@ -65,22 +67,64 @@ public class QuizTrainerServiceTest {
     @Test
     public void addingANewUserCreatesTheUser() throws Exception {
         String username = "test";
-        User user = new User(username, "testname");
-        this.userDao.create(user);
+        String name = "testname";
+        this.quizTrainerService.addANewUser(username, name);
         
         User createdUser = userDao.findByUsername(username);
         createdUser.getUsername();
         
-        assertEquals(createdUser.getUsername(), username);
+        assertEquals(username, createdUser.getUsername());
     }
     
     @Test
     public void addingANewQuizCardCreatesTheQuizCard() throws Exception {
         
-        this.quizCardDao.create(quizCardOne, 1);
+        this.quizTrainerService.addANewQuizCard(quizCardOne);
         
         QuizCard createdQuizCard = quizCardDao.findByQuestion(quizCardOneQuestion);
         
-        assertEquals(createdQuizCard.getQuestion(), quizCardOneQuestion);
+        assertEquals(quizCardOneQuestion, createdQuizCard.getQuestion());
     }
+    
+    @Test
+    public void correctAnswerUpdatesNewBoxInTheDatabase() throws Exception {
+        
+        this.quizTrainerService.addANewQuizCard(quizCardOne);      
+        
+        this.quizTrainerService.correctAnswer(quizCardOne, deck);
+        
+        QuizCard updatedQuizCard = quizCardDao.findByQuestion(quizCardOneQuestion);
+        
+        assertEquals(4, updatedQuizCard.getBoxNumber());
+    }
+    
+    @Test
+    public void wrongAnswerUpdatesNewBoxInTheDatabase() throws Exception {
+        
+        this.quizTrainerService.addANewQuizCard(quizCardTwo);
+        
+        this.quizTrainerService.wrongAnswer(quizCardTwo, deck);
+        
+        QuizCard updatedQuizCard = quizCardDao.findByQuestion(quizCardTwoQuestion);
+        
+        assertEquals(1, updatedQuizCard.getBoxNumber());
+    }
+
+    @Test
+    public void initializingDeckTakesAllCardsFromTheDatabase() throws Exception {
+        
+        this.quizTrainerService.addANewQuizCard(quizCardOne);
+        this.quizTrainerService.addANewQuizCard(quizCardTwo);        
+        
+        Deck initializedDeck = this.quizTrainerService.initDeck();
+        
+        ArrayList<Box> boxes = initializedDeck.getBoxes();
+        int totalCardCount = 0;
+        
+        for (Box box : boxes) {
+            totalCardCount += box.getQuizCards().size();
+        }
+        
+        assertEquals(2, totalCardCount);
+    } 
 }

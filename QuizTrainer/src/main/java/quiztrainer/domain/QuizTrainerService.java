@@ -17,7 +17,8 @@ import java.util.logging.Logger;
 
 public class QuizTrainerService {
     
-    private Database database;
+    Database database;
+    
     private UserDao userDao;
     private QuizCardDao quizCardDao;
     
@@ -26,10 +27,10 @@ public class QuizTrainerService {
     private User currentUser;
     private int currentUserId;
     
-    public QuizTrainerService() {
+    public QuizTrainerService(String databaseUrl) {
         
         try {     
-            this.database = new Database("jdbc:sqlite:quiztrainer.db");
+            this.database = new Database(databaseUrl);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(QuizTrainerService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -133,13 +134,12 @@ public class QuizTrainerService {
      */ 
     
     public void correctAnswer(QuizCard quizCard, Deck currentDeck) {
-        int moveCardToBox = quizCard.getBoxNumber() +1;
+        int moveCardToBox = quizCard.getBoxNumber() + 1;
         
         if (moveCardToBox > 5) {
             return;
         }
         
-        quizCard.setBoxNumber(moveCardToBox);
         this.leitner.moveCardUp(quizCard, currentDeck);
         
         int quizCardId = this.quizCardDao.getIdByQuestion(quizCard.getQuestion());
@@ -161,14 +161,12 @@ public class QuizTrainerService {
      */  
     
     public void wrongAnswer(QuizCard quizCard, Deck currentDeck) {
-        int moveCardToBoxOne = 1;
-        quizCard.setBoxNumber(moveCardToBoxOne);
         this.leitner.moveCardToBoxOne(quizCard, currentDeck);        
         
         int quizCardId = this.quizCardDao.getIdByQuestion(quizCard.getQuestion());
         
         try {
-            this.quizCardDao.setBox(quizCardId, moveCardToBoxOne);
+            this.quizCardDao.setBox(quizCardId, 1);
         } catch (Exception e) {
             System.out.println(e);
         } 
