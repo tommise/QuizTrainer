@@ -7,22 +7,21 @@
 _quiztrainer.ui_ holds an user interface implemented in Java FX
 _quiztrainer.domain_ holds the main components QuizCard and Box
 _quiztrainer.logic_ has the logic side including QuizCard interval and Leitner implementation
-_quiztrainer.dao_ takes care of the data being saved
-
-_As of now, dao classes have not been initialized._
+_quiztrainer.dao_ takes care of the data being stored
 
 ## User interface
 
-User interface has five different scenes:
+User interface has six different scenes:
 - Login
 - Signup
 - Add a card
+- My cards
 - Rehearse
-- Statistics
+- _Statistics_
 
 _As of now, statistics scene has not been initialized._
 
-Each of the view has their own Scene-object. Structurality of user interface can be viewed from [quiztrainer.ui.UserInterface](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/main/java/quiztrainer/ui/UserInterface.java).
+Each of these views has their own Scene-object. Structurality of user interface can be found from [quiztrainer.ui.UserInterface](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/main/java/quiztrainer/ui/UserInterface.java).
 
 ## Software logic
 
@@ -68,18 +67,21 @@ to Box number 1 (60%).
 
 ## Data handling
 
-Package _quiztrainer.dao_ will hold classes to save User, QuizCard, Box and Deck information into the database. The information will be saved to quiztrainer.db using SQL.
+Package _quiztrainer.dao_ holds the appropriate classes to store information into the database. The information will be saved into quiztrainer.db using SQL.
 
 **Class Database:**
-- Initializes a new database and handles connection.
+- Initializes the database and handles connection.
 
 **Classes UserDAO and FileUserDAO:**
 - Saves new user data and searches user information from database.
 
-**Class QuizTrainerService:**
-- As of now, QuizTrainerService handles User information: adding a new user, logging user in and logging user out.
+**Classes QuizCardDAO and FileQuizCardDAO:**
+- Acts such as UserDAO, but with QuizCard objects.
 
-## Sequence diagrams
+**Class QuizTrainerService:**
+- QuizTrainerService handles the logic between UI and Data Access Objects. QuizTrainerService takes care of adding a new user, logging users in, logging users out, adding a new QuizCard, handling right and wrong answers based on answer of the user and initalizes the default deck.
+
+## Sequence diagrams of main functionalities
 
 ### User signup
 
@@ -89,6 +91,13 @@ When the user fills the username and name forms, class GUIHelper will check whet
 
 ### User login
 
-As user has filled username field and clicked the Login button, QuizTrainerService will check from UserDao whether the user exists. If QuizTrainerService sends back the information that username was found, the scene will be changed to the mainScene where user has the choices to Add a card, Rehearse and Logout.
+As user has filled username field and clicked the _Login_ button, QuizTrainerService will check from UserDao whether the user exists. If QuizTrainerService sends back the information that username was found, the scene will be changed to the mainScene where user has the choices to Add a card, Rehearse and Logout.
 
 ![Login sequence diagram](images/login_sequence_diagram.png "Login sequence diagram")
+
+### Adding a new QuizCard
+
+As the user has typed in the appropriate question with answers and pressed the _Add a new question_ button, QuizTrainerService proceeds to check from QuizCardDao whether the card has been already made. If no further complications arise, QuizTrainerService will create a new QuizCard with given values.
+
+![New card sequence diagram](images/new_card_sequence_diagram.png "New card sequence diagram")
+
