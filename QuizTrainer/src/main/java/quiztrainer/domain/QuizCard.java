@@ -69,5 +69,9 @@ public class QuizCard {
     
     public String getWrongAnswerString() {
         return "Wrong. The correct answer is " + this.correctAnswer + ".";
-    }    
+    }  
+    
+    public String getQuestionAndRightAnswer() {
+        return this.question + " " + this.correctAnswer;
+    }
 }

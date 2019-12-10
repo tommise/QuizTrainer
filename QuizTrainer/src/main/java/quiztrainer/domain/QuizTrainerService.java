@@ -178,7 +178,7 @@ public class QuizTrainerService {
      * calling quizCardDao.getAllQuizCards(currentUserId)
      * and adding them locally to the Deck object.
      * 
-     * @return global default Deck.
+     * @return default Deck.
      */  
     
     public Deck initDeck() {
@@ -190,4 +190,10 @@ public class QuizTrainerService {
         
         return this.deck;
     }
+    
+    public List<QuizCard> getAllQuizCards() {
+        List<QuizCard> allQuizCards = this.quizCardDao.getAllQuizCards(currentUserId);
+        
+        return allQuizCards;
+    }    
 }

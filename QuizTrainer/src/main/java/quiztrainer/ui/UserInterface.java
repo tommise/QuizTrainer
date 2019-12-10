@@ -8,9 +8,11 @@ import quiztrainer.domain.QuizTrainerService;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,7 +28,10 @@ public class UserInterface extends Application {
     private Scene signupScene;    
     private Scene mainScene;
     private Scene rehearseScene;
+    private Scene listingScene;
     private Scene addANewCardScene;
+    
+    private VBox quizCardNodes;    
     private Label currentUserLabel = new Label("");  
     
     @Override
@@ -144,15 +149,22 @@ public class UserInterface extends Application {
         primaryPane.setPadding(new Insets(20));
         Button primaryAddANewCardButton = new Button("Add a new card");
         Button primaryRehearseButton = new Button("Rehearse");
+        Button primaryListingButton = new Button("My cards");
         Button logoutButton = new Button("Logout");
         Label errorLabel = new Label("");
-        primaryPane.getChildren().addAll(currentUserLabel, primaryAddANewCardButton, primaryRehearseButton, errorLabel, logoutButton);
+        primaryPane.getChildren().addAll(currentUserLabel, primaryAddANewCardButton, primaryListingButton, 
+                primaryRehearseButton, errorLabel, logoutButton);
 
         logoutButton.setOnAction(e-> {
             trainer.logout();
             deck = null;
             currentUserLabel.setText("");
             primaryStage.setScene(startingScene);
+        });
+        
+        primaryListingButton.setOnAction(e-> {
+            refreshQuizCardList();
+            primaryStage.setScene(listingScene);
         });
                 
         // Scene for adding a new card
@@ -238,7 +250,25 @@ public class UserInterface extends Application {
         });
         
         addANewCardPane.getChildren().addAll(newQuestionPane, newAnswerPane, wrongChoicesPane, addButtonsPane);
-               
+        
+        // Scene for listing cards
+        
+        VBox quizCardListingPane = new VBox(20);
+        quizCardListingPane.setPadding(new Insets(20));
+        quizCardListingPane.setPadding(new Insets(20));
+        Button returnFromListingButton = new Button("<- Return to menu");        
+        listingScene = new Scene(quizCardListingPane, 500, 500);
+        
+        quizCardNodes = new VBox(10);
+        ScrollPane quizCardScrollPane = new ScrollPane();
+        quizCardScrollPane.setContent(quizCardNodes);
+        
+        quizCardListingPane.getChildren().addAll(quizCardScrollPane, returnFromListingButton);
+        
+        returnFromListingButton.setOnAction(e-> {
+            primaryStage.setScene(mainScene);
+        });
+        
         // Scene for rehearsing 
         
         VBox rehearsePane = new VBox(20);
@@ -349,5 +379,23 @@ public class UserInterface extends Application {
     
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public void refreshQuizCardList() {
+        quizCardNodes.getChildren().clear(); 
+        
+        List<QuizCard> allQuizCards = this.trainer.getAllQuizCards();
+
+        for (QuizCard card : allQuizCards) {
+            quizCardNodes.getChildren().add(createQuizCardNode(card));
+        }   
+    }
+    
+    public Node createQuizCardNode(QuizCard card) {
+        HBox quizCard = new HBox(5);
+        Label label  = new Label(card.getQuestionAndRightAnswer());
+        
+        quizCard.getChildren().add(label);
+        return quizCard;
     }
 }
