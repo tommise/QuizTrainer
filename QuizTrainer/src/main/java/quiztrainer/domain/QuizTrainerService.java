@@ -91,6 +91,11 @@ public class QuizTrainerService {
         return true;
     }
     
+    /**
+     * Logging user out. 
+     * currentUser variable will be assigned a null value.
+     */   
+    
     public void logout() {
         this.currentUser = null;
     }    
@@ -179,7 +184,7 @@ public class QuizTrainerService {
      * and adding them locally to the Deck object.
      * 
      * @return default Deck.
-     */  
+     */
     
     public Deck initDeck() {
         List<QuizCard> allQuizCards = this.quizCardDao.getAllQuizCards(currentUserId);
