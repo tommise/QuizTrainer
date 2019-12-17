@@ -1,6 +1,7 @@
 
 package quiztrainer.domain;
 
+import java.sql.SQLException;
 import java.util.List;
 import quiztrainer.dao.Database;
 import quiztrainer.dao.UserDao;
@@ -27,11 +28,10 @@ public class QuizTrainerService {
     private User currentUser;
     private int currentUserId;
     
-    public QuizTrainerService(String databaseUrl) {
+    public QuizTrainerService(String databaseUrl) throws SQLException {
         
         try {     
             this.database = new Database(databaseUrl);
-            this.database.initDatabase();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(QuizTrainerService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -140,6 +140,9 @@ public class QuizTrainerService {
      */ 
     
     public void correctAnswer(QuizCard quizCard, Deck currentDeck) {
+        updateRightAnswerAmount(quizCard);
+        updateAnswerAmount(quizCard);
+        
         int moveCardToBox = quizCard.getBoxNumber() + 1;
         
         if (moveCardToBox > 5) {
@@ -167,12 +170,37 @@ public class QuizTrainerService {
      */  
     
     public void wrongAnswer(QuizCard quizCard, Deck currentDeck) {
-        this.leitner.moveCardToBoxOne(quizCard, currentDeck);        
+        updateAnswerAmount(quizCard);
+        this.leitner.moveCardToBoxOne(quizCard, currentDeck);
         
         int quizCardId = this.quizCardDao.getIdByQuestion(quizCard.getQuestion());
         
         try {
             this.quizCardDao.setBox(quizCardId, 1);
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
+    }
+    
+    public void updateAnswerAmount(QuizCard quizCard) {
+        int amount = quizCard.getTotalAnswers() + 1;
+        quizCard.setTotalAnswers(amount);
+        int quizCardId = this.quizCardDao.getIdByQuestion(quizCard.getQuestion());
+        
+        try {
+            this.quizCardDao.setAmountRehearsed(quizCardId, amount);
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
+    }
+    
+    public void updateRightAnswerAmount(QuizCard quizCard) {
+        int amount = quizCard.getTotalAnsweredRight() + 1;
+        quizCard.setTotalAnsweredRight(amount);
+        int quizCardId = this.quizCardDao.getIdByQuestion(quizCard.getQuestion());
+        
+        try {
+            this.quizCardDao.setAmountAnsweredRight(quizCardId, amount);
         } catch (Exception e) {
             System.out.println(e);
         } 
@@ -201,5 +229,60 @@ public class QuizTrainerService {
         List<QuizCard> allQuizCards = this.quizCardDao.getAllQuizCards(currentUserId);
         
         return allQuizCards;
+    }    
+    
+    public QuizCard getTheMostRehearsedQuizCard() {
+        List<QuizCard> allQuizCards = getAllQuizCards();
+        
+        if (allQuizCards.isEmpty()) {
+            return null;
+        }
+        
+        QuizCard foundCard = allQuizCards.get(0);
+        
+        for (QuizCard quizCard : allQuizCards) {
+            if (quizCard.getTotalAnswers() > foundCard.getTotalAnswers()) {
+                foundCard = quizCard;
+            }
+        }
+        
+        return foundCard;
+    }
+    
+    public QuizCard getTheMostWrongAnsweredQuizCard() {
+        List<QuizCard> allQuizCards = getAllQuizCards();
+        
+        if (allQuizCards.isEmpty()) {
+            return null;
+        }
+        
+        QuizCard foundCard = allQuizCards.get(0);
+        
+        for (QuizCard quizCard : allQuizCards) {
+            
+            if (quizCard.getTotalAnsweredWrong() > foundCard.getTotalAnsweredWrong()) {
+                foundCard = quizCard;
+            }
+        }
+        
+        return foundCard;
+    }
+    
+    public QuizCard getTheMostRightAnsweredQuizCard() {
+        List<QuizCard> allQuizCards = getAllQuizCards();
+        
+        if (allQuizCards.isEmpty()) {
+            return null;
+        }
+        
+        QuizCard foundCard = allQuizCards.get(0);
+        
+        for (QuizCard quizCard : allQuizCards) {
+            if (quizCard.getTotalAnsweredRight() > foundCard.getTotalAnsweredRight()) {
+                foundCard = quizCard;
+            }
+        }
+        
+        return foundCard;
     }    
 }

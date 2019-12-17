@@ -27,15 +27,17 @@ public class DbQuizCardDao implements QuizCardDao {
         
         Connection dbConnection = db.getConnection();
         PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("INSERT INTO QuizCard"
-                + " (user_id, boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?)");
+                + " (user_id, boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3, answeredRight, totalAnswers)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         createNewQuizCardStatement.setInt(1, userId); 
         createNewQuizCardStatement.setInt(2, boxNumber); 
         createNewQuizCardStatement.setString(3, quizCard.getQuestion()); 
         createNewQuizCardStatement.setString(4, quizCard.getCorrectAnswer());
         createNewQuizCardStatement.setString(5, falseAnswers.get(0)); 
         createNewQuizCardStatement.setString(6, falseAnswers.get(1));
-        createNewQuizCardStatement.setString(7, falseAnswers.get(2));         
+        createNewQuizCardStatement.setString(7, falseAnswers.get(2));  
+        createNewQuizCardStatement.setInt(8, 0);
+        createNewQuizCardStatement.setInt(9, 0);
         
         createNewQuizCardStatement.executeUpdate();        
         createNewQuizCardStatement.close();
@@ -61,7 +63,7 @@ public class DbQuizCardDao implements QuizCardDao {
         try {
             Connection dbConnection = db.getConnection();
             PreparedStatement findQuizCardStatement = dbConnection.prepareStatement(
-                    "SELECT boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3 FROM QuizCard WHERE question = ?");
+                    "SELECT * FROM QuizCard WHERE question = ?");
             findQuizCardStatement.setString(1, findWithQuestion);
 
             ResultSet rs = findQuizCardStatement.executeQuery();
@@ -177,7 +179,43 @@ public class DbQuizCardDao implements QuizCardDao {
             return -1;
         }
     }
-    
+
+    @Override
+    public void setAmountRehearsed(int quizCardId, int amount) {
+        try {
+            Connection dbConnection = db.getConnection();
+            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("UPDATE QuizCard SET totalAnswers = ? WHERE id = ?");
+            findQuizCardStatement.setInt(1, amount);
+            findQuizCardStatement.setInt(2, quizCardId);
+
+            findQuizCardStatement.executeUpdate();
+
+            findQuizCardStatement.close();
+            dbConnection.close();  
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void setAmountAnsweredRight(int quizCardId, int amount) {
+        try {
+            Connection dbConnection = db.getConnection();
+            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("UPDATE QuizCard SET answeredRight = ? WHERE id = ?");
+            findQuizCardStatement.setInt(1, amount);
+            findQuizCardStatement.setInt(2, quizCardId);
+
+            findQuizCardStatement.executeUpdate();
+
+            findQuizCardStatement.close();
+            dbConnection.close();  
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+     
     public QuizCard getQuizCardFromResulSet(ResultSet rs) throws SQLException {
                 
         int boxNumber = rs.getInt("boxNumber");                
@@ -190,9 +228,11 @@ public class DbQuizCardDao implements QuizCardDao {
         falseAnswers.add(falseAnswer1);
         falseAnswers.add(falseAnswer2);
         falseAnswers.add(falseAnswer3);
+        int answeredRight = rs.getInt("answeredRight");
+        int totalAnswers = rs.getInt("totalAnswers");
                 
-        QuizCard quizCard = new QuizCard(question, rightAnswer, falseAnswers, boxNumber);
-            
+        QuizCard quizCard = new QuizCard(question, rightAnswer, falseAnswers, boxNumber, answeredRight, totalAnswers);
+        
         return quizCard;
-    }  
+    }
 }

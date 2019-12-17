@@ -10,6 +10,10 @@ public interface QuizCardDao {
     QuizCard findByQuestion(String question);
     
     void setBox(int quizCardId, int boxNumber);
+    
+    void setAmountRehearsed(int quizCardId, int amount);
+    
+    void setAmountAnsweredRight(int quizCardId, int amount);
 
     List<QuizCard> getAllQuizCards(int userId);
     

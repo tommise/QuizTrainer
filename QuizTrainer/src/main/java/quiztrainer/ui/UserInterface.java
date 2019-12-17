@@ -20,8 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class UserInterface extends Application {
+    private Deck deck;    
     private QuizTrainerService trainer;
-    private Deck deck;
     
     private Scene startingScene;
     private Scene loginScene;
@@ -30,9 +30,12 @@ public class UserInterface extends Application {
     private Scene rehearseScene;
     private Scene listingScene;
     private Scene addANewCardScene;
+    private Scene statisticsScene;
     
-    private VBox quizCardNodes;    
+    private VBox statisticsPane;
+    private VBox quizCardListNodes;
     private Label currentUserLabel = new Label("");  
+    private Label notificationLabel = new Label("");
     
     @Override
     public void init() throws Exception {
@@ -74,7 +77,7 @@ public class UserInterface extends Application {
         Button returnFromLoginButton = new Button("<- Return to menu"); 
         Label loginWarning = new Label("");
         
-        loginPane.getChildren().addAll(usernameInstructionLabel, usernameInput, loginButton, returnFromLoginButton, loginWarning); 
+        loginPane.getChildren().addAll(notificationLabel, usernameInstructionLabel, usernameInput, loginButton, returnFromLoginButton, loginWarning); 
         loginScene = new Scene(loginPane, 500, 500);
         
         loginButton.setOnAction(e-> {
@@ -82,6 +85,7 @@ public class UserInterface extends Application {
             if (trainer.login(username)){
                 usernameInput.setText("");
                 loginWarning.setText("");
+                notificationLabel.setText("");
                 currentUserLabel.setText("Welcome " + trainer.getCurrentUser().getName() + "!");
                 deck = this.trainer.initDeck();
                 primaryStage.setScene(mainScene);  
@@ -92,6 +96,7 @@ public class UserInterface extends Application {
         });
         
         returnFromLoginButton.setOnAction(e-> {
+            notificationLabel.setText("");
             usernameInput.setText("");
             loginWarning.setText("");            
             primaryStage.setScene(startingScene);
@@ -125,10 +130,13 @@ public class UserInterface extends Application {
                 signupMessage.setText("Username contains invalid characters or form is empty.");
                 signupMessage.setTextFill(Color.RED);
             } else if (trainer.addANewUser(username, name)) {
-                signupMessage.setText("You have succesfully created an account with username: " + newUsernameInput.getText());
-                signupMessage.setTextFill(Color.BLACK);
+                notificationLabel.setText("You have successfully created an account with username: " + newUsernameInput.getText());
+                notificationLabel.setTextFill(Color.GREEN);
                 newUsernameInput.setText("");
-                newNameInput.setText("");
+                newNameInput.setText("");            
+                signupMessage.setText(""); 
+                primaryStage.setScene(loginScene);
+                
             } else {
                 signupMessage.setText("Username is already taken.");
                 signupMessage.setTextFill(Color.RED);
@@ -150,10 +158,11 @@ public class UserInterface extends Application {
         Button primaryAddANewCardButton = new Button("Add a new card");
         Button primaryRehearseButton = new Button("Rehearse");
         Button primaryListingButton = new Button("My cards");
+        Button primaryStatisticsButton = new Button("Statistics");
         Button logoutButton = new Button("Logout");
         Label errorLabel = new Label("");
         primaryPane.getChildren().addAll(currentUserLabel, primaryAddANewCardButton, primaryListingButton, 
-                primaryRehearseButton, errorLabel, logoutButton);
+                primaryStatisticsButton, primaryRehearseButton, errorLabel, logoutButton);
 
         logoutButton.setOnAction(e-> {
             trainer.logout();
@@ -165,7 +174,7 @@ public class UserInterface extends Application {
         primaryListingButton.setOnAction(e-> {
             refreshQuizCardList();
             primaryStage.setScene(listingScene);
-        });
+        });      
                 
         // Scene for adding a new card
         
@@ -221,7 +230,7 @@ public class UserInterface extends Application {
             inputs.add(wrongChoice3Input.getText());       
             
             if (guiHelper.inputsAreValid(inputs)) {
-                QuizCard newQuizCard = new QuizCard(question, answer, choices, 1);
+                QuizCard newQuizCard = new QuizCard(question, answer, choices, 1, 0, 0);
                 this.trainer.addANewQuizCard(newQuizCard);                
                 deck.addANewCard(newQuizCard);
                 newQuestionInput.setText("");
@@ -260,9 +269,9 @@ public class UserInterface extends Application {
         Label listLabel = new Label("Listing all your QuizCards:");
         listingScene = new Scene(quizCardListingPane, 500, 500);
         
-        quizCardNodes = new VBox(10);
+        quizCardListNodes = new VBox(10);
         ScrollPane quizCardScrollPane = new ScrollPane();
-        quizCardScrollPane.setContent(quizCardNodes);
+        quizCardScrollPane.setContent(quizCardListNodes);
         
         quizCardListingPane.getChildren().addAll(listLabel, quizCardScrollPane, returnFromListingButton);
         
@@ -366,6 +375,34 @@ public class UserInterface extends Application {
             primaryStage.setScene(mainScene);
         });
         
+        // Scene for statistics
+        
+        statisticsPane = new VBox(20);
+        statisticsPane.setPadding(new Insets(20));
+        statisticsPane.setPadding(new Insets(20));
+        
+        statisticsScene = new Scene(statisticsPane, 500, 500);
+        
+        Button returnFromStatisticsButton = new Button("<- Return to menu");
+        
+        primaryStatisticsButton.setOnAction(e-> {
+            if (this.trainer.getAllQuizCards().isEmpty()) {
+                errorLabel.setText("There are no cards to show statistics from.");
+                errorLabel.setTextFill(Color.RED);
+            } else {
+                errorLabel.setText("");
+                refreshQuizCardStatistics();
+                statisticsPane.getChildren().add(returnFromStatisticsButton);
+                primaryStage.setScene(statisticsScene);
+            }
+        });  
+        
+        returnFromStatisticsButton.setOnAction(e-> {
+            primaryStage.setScene(mainScene);
+        });        
+        
+        /// Setting mainScene
+        
         mainScene = new Scene(primaryPane, 500, 500);
         
         primaryStage.setTitle("QuizTrainer");
@@ -383,20 +420,41 @@ public class UserInterface extends Application {
     }
     
     public void refreshQuizCardList() {
-        quizCardNodes.getChildren().clear(); 
+        quizCardListNodes.getChildren().clear(); 
         
         List<QuizCard> allQuizCards = this.trainer.getAllQuizCards();
 
         for (QuizCard card : allQuizCards) {
-            quizCardNodes.getChildren().add(createQuizCardNode(card));
+            quizCardListNodes.getChildren().add(createQuizCardNode(card, card.getQuestionAndRightAnswer()));
         }   
     }
     
-    public Node createQuizCardNode(QuizCard card) {
+    public Node createQuizCardNode(QuizCard card, String labelString) {
         HBox quizCard = new HBox(5);
-        Label label  = new Label(card.getQuestionAndRightAnswer());
+        Label label = new Label(labelString);
         
         quizCard.getChildren().add(label);
         return quizCard;
+    }
+    
+    public void refreshQuizCardStatistics() {
+        statisticsPane.getChildren().clear();
+        
+        Label mostAnsweredLabel = new Label("");
+        QuizCard mostAnsweredCard = this.trainer.getTheMostRehearsedQuizCard();
+        mostAnsweredLabel.setText("The card that has been most rehearsed: \n"
+                + mostAnsweredCard.getQuestion() + " " + mostAnsweredCard.getTotalAnswers() + " times.");  
+        
+        Label mostAnsweredRightLabel = new Label("");
+        QuizCard mostRightAnsweredCard = this.trainer.getTheMostRightAnsweredQuizCard();
+        mostAnsweredRightLabel.setText("The card that has been most answered right: \n"
+                + mostRightAnsweredCard.getQuestion() + " " + mostRightAnsweredCard.getTotalAnsweredRight() + " times.");
+        
+        Label mostAnsweredWrongLabel = new Label("");
+        QuizCard mostWrongAnsweredCard = this.trainer.getTheMostWrongAnsweredQuizCard();
+        mostAnsweredWrongLabel.setText("The card that has been answered most wrong: \n"
+                + mostWrongAnsweredCard.getQuestion() + " " + mostWrongAnsweredCard.getTotalAnsweredWrong() + " times.");  
+        
+        statisticsPane.getChildren().addAll(mostAnsweredLabel, mostAnsweredRightLabel, mostAnsweredWrongLabel);
     }
 }

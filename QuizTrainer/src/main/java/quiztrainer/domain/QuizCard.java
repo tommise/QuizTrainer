@@ -7,15 +7,19 @@ import java.util.Collections;
 public class QuizCard {
     
     int boxNumber;
+    int totalAnswers;      
+    int answeredRight;  
     String question;
     String correctAnswer;
     ArrayList<String> falseAnswers;
 
-    public QuizCard(String question, String correctAnswer, ArrayList<String> falseAnswers, int boxNumber) {
+    public QuizCard(String question, String correctAnswer, ArrayList<String> falseAnswers, int boxNumber, int answeredRight, int totalAnswers) {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.falseAnswers = falseAnswers;
         this.boxNumber = boxNumber;
+        this.answeredRight = answeredRight;
+        this.totalAnswers = totalAnswers;
     }
     
     public String getQuestion() {
@@ -40,6 +44,26 @@ public class QuizCard {
     
     public String getCorrectAnswer() {
         return this.correctAnswer;
+    }
+    
+    public int getTotalAnswers() {
+        return this.totalAnswers;
+    }
+    
+    public void setTotalAnswers(int amount) {
+        this.totalAnswers = amount;
+    }
+    
+    public int getTotalAnsweredRight() {
+        return this.answeredRight;
+    }
+    
+    public void setTotalAnsweredRight(int amount) {
+        this.answeredRight = amount;
+    } 
+    
+    public int getTotalAnsweredWrong() {
+        return this.totalAnswers - this.answeredRight;
     }
     
      /**
@@ -69,7 +93,7 @@ public class QuizCard {
     
     public String getWrongAnswerString() {
         return "Wrong. The correct answer is " + this.correctAnswer + ".";
-    }  
+    }
     
     public String getQuestionAndRightAnswer() {
         return this.question + " " + this.correctAnswer;
