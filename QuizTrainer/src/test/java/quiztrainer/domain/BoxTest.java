@@ -28,7 +28,7 @@ public class BoxTest {
         falseAnswers.add("Oslo");
         falseAnswers.add("Shanghai");
         
-        quizCard = new QuizCard(question, answer, falseAnswers, 1);
+        quizCard = new QuizCard(question, answer, falseAnswers, 1, 0, 0);
 
         int boxNumber = 1;
         box1 = new Box(boxNumber);

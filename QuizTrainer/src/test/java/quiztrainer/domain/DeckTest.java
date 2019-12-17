@@ -27,7 +27,7 @@ public class DeckTest {
         falseAnswers.add("Oslo");
         falseAnswers.add("Shanghai");
         
-        quizCard = new QuizCard(question, answer, falseAnswers, 1);
+        quizCard = new QuizCard(question, answer, falseAnswers, 1, 0, 0);
         leitner = new Leitner();
         deck = new Deck("Default deck");
         boxes = deck.getBoxes();       

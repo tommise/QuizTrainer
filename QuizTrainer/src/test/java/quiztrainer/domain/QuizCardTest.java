@@ -25,7 +25,7 @@ public class QuizCardTest {
         falseAnswers.add("Stockholm");   
         falseAnswers.add("Tallinn");         
         
-        quizCard = new QuizCard(question, answer, falseAnswers, 1);
+        quizCard = new QuizCard(question, answer, falseAnswers, 1, 0, 0);
         leitner = new Leitner();
         deck = new Deck("Default deck");
         

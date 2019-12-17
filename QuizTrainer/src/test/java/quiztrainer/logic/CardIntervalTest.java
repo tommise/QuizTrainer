@@ -31,7 +31,7 @@ public class CardIntervalTest {
         falseAnswers1.add("Oslo");
         falseAnswers1.add("Shanghai");
         
-        quizCard1 = new QuizCard(question1, answer1, falseAnswers1, 1);
+        quizCard1 = new QuizCard(question1, answer1, falseAnswers1, 1, 0, 0);
         
         String question2 = "What is the capital city of Sweden?";
         String answer2 = "Stockholm";
@@ -40,7 +40,7 @@ public class CardIntervalTest {
         falseAnswers2.add("Oslo");
         falseAnswers2.add("Shanghai");    
         
-        quizCard2 = new QuizCard(question2, answer2, falseAnswers2, 1);
+        quizCard2 = new QuizCard(question2, answer2, falseAnswers2, 1, 0, 0);
         
         leitner = new Leitner();
         deck = new Deck("Default deck");

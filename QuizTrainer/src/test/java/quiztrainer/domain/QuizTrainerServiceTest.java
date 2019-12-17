@@ -2,6 +2,7 @@
 package quiztrainer.domain;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,7 +29,7 @@ public class QuizTrainerServiceTest {
     QuizTrainerService quizTrainerService;
        
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
         this.quizTrainerService = new QuizTrainerService("jdbc:sqlite:quiztrainerTest.db");
         this.database = quizTrainerService.database;
         this.userDao = new DbUserDao(database);
@@ -41,7 +42,7 @@ public class QuizTrainerServiceTest {
         falseAnswers.add("Tokyo");
         falseAnswers.add("Oslo");
         falseAnswers.add("Shanghai");         
-        quizCardOne = new QuizCard(quizCardOneQuestion, answer, falseAnswers, 1);
+        quizCardOne = new QuizCard(quizCardOneQuestion, answer, falseAnswers, 1, 0, 0);
         
         quizCardTwoQuestion = "What is the capital city of Sweden?";
         String answer2 = "Stockholm";
@@ -50,7 +51,7 @@ public class QuizTrainerServiceTest {
         falseAnswers2.add("Oslo");
         falseAnswers2.add("Shanghai");    
         
-        quizCardTwo = new QuizCard(quizCardTwoQuestion, answer2, falseAnswers2, 1);        
+        quizCardTwo = new QuizCard(quizCardTwoQuestion, answer2, falseAnswers2, 1, 0, 0);        
         
         this.deck.addACard(quizCardOne, 3); 
         this.deck.addACard(quizCardTwo, 3); 
