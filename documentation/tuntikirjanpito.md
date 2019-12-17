@@ -22,5 +22,6 @@
 | 08.12 | 2h   | JUnit testauksien päivittelyä |
 | 10.12 | 2h   | JUnit testejä QuizTrainerServicelle,  UI muutoksia|
 | 10.12 | 2h   | Arkkitehtuuritiedoston muokkaamista, sekvenssikaavion lisäys |
+| 17.12 | 5h   | QuizCard statistiikan lisäys ja tähän liittyviä tietokanta ja UI muutoksia |
 
-Yhteensä: 55h
+Yhteensä: 60h
