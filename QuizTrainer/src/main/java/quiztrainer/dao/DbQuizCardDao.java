@@ -5,10 +5,10 @@ import java.util.*;
 import java.sql.*;
 import quiztrainer.domain.QuizCard;
 
-public class FileQuizCardDao implements QuizCardDao {
+public class DbQuizCardDao implements QuizCardDao {
     private Database db;
     
-    public FileQuizCardDao(Database db) {
+    public DbQuizCardDao(Database db) {
         this.db = db;
     }
     
@@ -23,12 +23,7 @@ public class FileQuizCardDao implements QuizCardDao {
     @Override
     public QuizCard create(QuizCard quizCard, int userId) throws Exception, SQLException {
         int boxNumber = 1;
-        String question = quizCard.getQuestion();
-        String rightAnswer = quizCard.getCorrectAnswer();
-        ArrayList<String> falseAnswers = quizCard.getFalseAnswers();
-        String falseAnswer1 = falseAnswers.get(0);
-        String falseAnswer2 = falseAnswers.get(1);
-        String falseAnswer3 = falseAnswers.get(2);   
+        ArrayList<String> falseAnswers = quizCard.getFalseAnswers();  
         
         Connection dbConnection = db.getConnection();
         PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("INSERT INTO QuizCard"
@@ -36,17 +31,18 @@ public class FileQuizCardDao implements QuizCardDao {
                 + " VALUES (?, ?, ?, ?, ?, ?, ?)");
         createNewQuizCardStatement.setInt(1, userId); 
         createNewQuizCardStatement.setInt(2, boxNumber); 
-        createNewQuizCardStatement.setString(3, question); 
-        createNewQuizCardStatement.setString(4, rightAnswer);
-        createNewQuizCardStatement.setString(5, falseAnswer1); 
-        createNewQuizCardStatement.setString(6, falseAnswer2);
-        createNewQuizCardStatement.setString(7, falseAnswer3);         
+        createNewQuizCardStatement.setString(3, quizCard.getQuestion()); 
+        createNewQuizCardStatement.setString(4, quizCard.getCorrectAnswer());
+        createNewQuizCardStatement.setString(5, falseAnswers.get(0)); 
+        createNewQuizCardStatement.setString(6, falseAnswers.get(1));
+        createNewQuizCardStatement.setString(7, falseAnswers.get(2));         
+        
         createNewQuizCardStatement.executeUpdate();        
         createNewQuizCardStatement.close();
         
         dbConnection.close();
         
-        QuizCard newQuizCard = findByQuestion(question);
+        QuizCard newQuizCard = findByQuestion(quizCard.getQuestion());
         
         return newQuizCard;
     }   
@@ -60,32 +56,18 @@ public class FileQuizCardDao implements QuizCardDao {
     
     @Override
     public QuizCard findByQuestion(String findWithQuestion) {
-        QuizCard foundQuizCard;
+        QuizCard foundQuizCard = null;
         
         try {
             Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("SELECT "
-                    + "boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3 "
-                    + "FROM QuizCard WHERE question = ?");
+            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement(
+                    "SELECT boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3 FROM QuizCard WHERE question = ?");
             findQuizCardStatement.setString(1, findWithQuestion);
 
             ResultSet rs = findQuizCardStatement.executeQuery();
 
             if (rs.next()) {
-                int boxNumber = rs.getInt("boxNumber");                
-                String question = rs.getString("question");
-                String rightAnswer = rs.getString("rightAnswer");
-                String falseAnswer1 = rs.getString("falseAnswer1");
-                String falseAnswer2 = rs.getString("falseAnswer2");
-                String falseAnswer3 = rs.getString("falseAnswer3");
-                ArrayList<String> falseAnswers = new ArrayList<>();
-                falseAnswers.add(falseAnswer1);
-                falseAnswers.add(falseAnswer2);
-                falseAnswers.add(falseAnswer3);
-                
-                foundQuizCard = new QuizCard(question, rightAnswer, falseAnswers, boxNumber);
-            } else {
-                return null;
+                foundQuizCard = getQuizCardFromResulSet(rs);
             }
 
             findQuizCardStatement.close();
@@ -119,19 +101,7 @@ public class FileQuizCardDao implements QuizCardDao {
             ResultSet rs = getAllQuizCardsStatement.executeQuery();
         
             while (rs.next()) {
-                
-                int boxNumber = rs.getInt("boxNumber");                
-                String question = rs.getString("question");
-                String rightAnswer = rs.getString("rightAnswer");
-                String falseAnswer1 = rs.getString("falseAnswer1");
-                String falseAnswer2 = rs.getString("falseAnswer2");
-                String falseAnswer3 = rs.getString("falseAnswer3");
-                ArrayList<String> falseAnswers = new ArrayList<>();
-                falseAnswers.add(falseAnswer1);
-                falseAnswers.add(falseAnswer2);
-                falseAnswers.add(falseAnswer3);
-                
-                QuizCard quizCard = new QuizCard(question, rightAnswer, falseAnswers, boxNumber);
+                QuizCard quizCard = getQuizCardFromResulSet(rs);
                 allQuizCards.add(quizCard);
             }       
         
@@ -207,4 +177,22 @@ public class FileQuizCardDao implements QuizCardDao {
             return -1;
         }
     }
+    
+    public QuizCard getQuizCardFromResulSet(ResultSet rs) throws SQLException {
+                
+        int boxNumber = rs.getInt("boxNumber");                
+        String question = rs.getString("question");
+        String rightAnswer = rs.getString("rightAnswer");
+        String falseAnswer1 = rs.getString("falseAnswer1");
+        String falseAnswer2 = rs.getString("falseAnswer2");
+        String falseAnswer3 = rs.getString("falseAnswer3");
+        ArrayList<String> falseAnswers = new ArrayList<>();
+        falseAnswers.add(falseAnswer1);
+        falseAnswers.add(falseAnswer2);
+        falseAnswers.add(falseAnswer3);
+                
+        QuizCard quizCard = new QuizCard(question, rightAnswer, falseAnswers, boxNumber);
+            
+        return quizCard;
+    }  
 }

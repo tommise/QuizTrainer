@@ -10,8 +10,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import quiztrainer.dao.Database;
-import quiztrainer.dao.FileQuizCardDao;
-import quiztrainer.dao.FileUserDao;
+import quiztrainer.dao.DbQuizCardDao;
+import quiztrainer.dao.DbUserDao;
 import quiztrainer.dao.QuizCardDao;
 import quiztrainer.dao.UserDao;
 
@@ -31,8 +31,8 @@ public class QuizTrainerServiceTest {
     public void setUp() {
         this.quizTrainerService = new QuizTrainerService("jdbc:sqlite:quiztrainerTest.db");
         this.database = quizTrainerService.database;
-        this.userDao = new FileUserDao(database);
-        this.quizCardDao = new FileQuizCardDao(database);
+        this.userDao = new DbUserDao(database);
+        this.quizCardDao = new DbQuizCardDao(database);
         this.deck = new Deck("Default deck");
         
         quizCardOneQuestion = "What is the capital city of Finland?";

@@ -17,6 +17,11 @@ public class Database {
         return DriverManager.getConnection(url);
     }
     
+    /**
+     * Initializes the database and creates User and QuizCard
+     * tables if they don't exist yet.
+     */
+    
     public void initDatabase() {
         try {
             Connection connection = getConnection();

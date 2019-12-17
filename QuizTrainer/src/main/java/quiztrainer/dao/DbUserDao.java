@@ -5,11 +5,11 @@ import java.util.List;
 import java.sql.*;
 import quiztrainer.domain.User;
 
-public class FileUserDao implements UserDao {
+public class DbUserDao implements UserDao {
     
     private Database db;
     
-    public FileUserDao(Database db) {
+    public DbUserDao(Database db) {
         this.db = db;
     }
     

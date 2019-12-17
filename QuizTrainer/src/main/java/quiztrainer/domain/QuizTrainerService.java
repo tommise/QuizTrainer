@@ -6,8 +6,8 @@ import quiztrainer.dao.Database;
 import quiztrainer.dao.UserDao;
 import quiztrainer.dao.QuizCardDao;
 
-import quiztrainer.dao.FileUserDao;
-import quiztrainer.dao.FileQuizCardDao;
+import quiztrainer.dao.DbUserDao;
+import quiztrainer.dao.DbQuizCardDao;
 
 import quiztrainer.logic.Leitner;
 
@@ -35,8 +35,8 @@ public class QuizTrainerService {
             Logger.getLogger(QuizTrainerService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.userDao = new FileUserDao(database);
-        this.quizCardDao = new FileQuizCardDao(database);
+        this.userDao = new DbUserDao(database);
+        this.quizCardDao = new DbQuizCardDao(database);
         
         this.deck = new Deck("Default deck");
         this.leitner = new Leitner();

@@ -48,7 +48,7 @@ public class CardInterval {
     public int drawACardFromBoxes(ArrayList<Box> boxes) {
         
         while (true) {
-            int drawPercentage = this.random.nextInt(100);
+            int drawPercentage = this.random.nextInt(101);
             
             if (drawPercentage < 60 && !boxes.get(0).getQuizCards().isEmpty()) {
                 return 1;

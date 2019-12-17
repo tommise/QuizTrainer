@@ -35,6 +35,8 @@ public class Deck {
     
      /**
      * Adds a new card to box number one.
+     * 
+     * @param card  A QuizCard to be added to box one.
      */ 
     
     public void addANewCard(QuizCard card) {
