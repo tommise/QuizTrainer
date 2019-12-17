@@ -10,7 +10,6 @@ public class Database {
 
     public Database(String url) throws ClassNotFoundException {
         this.url = url;
-        initDatabase();
     }
 
     public Connection getConnection() throws SQLException {

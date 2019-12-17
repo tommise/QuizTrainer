@@ -31,6 +31,7 @@ public class QuizTrainerService {
         
         try {     
             this.database = new Database(databaseUrl);
+            this.database.initDatabase();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(QuizTrainerService.class.getName()).log(Level.SEVERE, null, ex);
         }
