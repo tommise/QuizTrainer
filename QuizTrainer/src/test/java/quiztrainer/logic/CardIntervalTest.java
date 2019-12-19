@@ -6,21 +6,18 @@ import quiztrainer.domain.Deck;
 import quiztrainer.domain.QuizCard;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class CardIntervalTest {
     
+    Deck deck;
+    Leitner leitner;
     QuizCard quizCard1;
     QuizCard quizCard2;
-    Leitner leitner;
-    CardInterval interval;
     ArrayList<Box> boxes;    
-    Deck deck;
+    CardInterval interval;
     
     @Before
     public void setUp() {

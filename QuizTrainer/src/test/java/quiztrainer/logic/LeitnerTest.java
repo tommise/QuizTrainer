@@ -11,9 +11,10 @@ import static org.junit.Assert.*;
 import quiztrainer.domain.Deck;
 
 public class LeitnerTest {
-    QuizCard quizCard;
+    
+    Deck deck;   
     Leitner leitner;
-    Deck deck;
+    QuizCard quizCard;
     ArrayList<Box> boxes;
     
     @Before
@@ -30,7 +31,7 @@ public class LeitnerTest {
         deck = new Deck("Default deck");
         boxes = deck.getBoxes();
         
-        deck.addANewCard(quizCard);
+        deck.addACard(quizCard, 1);
     }  
     
     @Test
