@@ -13,10 +13,6 @@ public class Box {
         this.quizCards = new ArrayList<>();
     }
     
-    public void setQuizCards(ArrayList<QuizCard> quizCards) {
-        this.quizCards = quizCards;
-    }
-    
     public int getBoxNumber() {
         return this.boxNumber;
     }

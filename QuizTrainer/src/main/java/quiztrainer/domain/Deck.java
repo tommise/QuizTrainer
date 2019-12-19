@@ -1,22 +1,17 @@
 
 package quiztrainer.domain;
 
-import java.util.*;
-import quiztrainer.logic.CardInterval;
-import quiztrainer.logic.Leitner;
+import java.util.ArrayList;
 
 public class Deck {
     
+    int deckId;    
+    String deckName;
     ArrayList<Box> boxes;
     Box box1, box2, box3, box4, box5;
-    Leitner leitner;
-    CardInterval interval;
-    String deckName;
     
     public Deck(String deckName) {
         this.deckName = deckName;
-        this.leitner = new Leitner();
-        this.interval = new CardInterval();
         
         this.boxes = new ArrayList<>();
         
@@ -31,16 +26,6 @@ public class Deck {
         this.boxes.add(box3);
         this.boxes.add(box4);
         this.boxes.add(box5);  
-    }
-    
-     /**
-     * Adds a new card to box number one.
-     * 
-     * @param card  A QuizCard to be added to box one.
-     */ 
-    
-    public void addANewCard(QuizCard card) {
-        this.box1.addACard(card);
     }
     
      /**
@@ -92,34 +77,20 @@ public class Deck {
         
         return null;
     }
-    
-     /**
-     * Fetches a next card to be rehearsed.
-     * If there are cards available uses 
-     * interval.drawANewCard() with the help
-     * of object from the CardInterval class.
-     * 
-     * @return next QuizCard to be rehearsed.
-     */
-    
-    public QuizCard drawNextQuestion() {
-        int totalSize = 0;
-            
-        for (Box box: boxes) {
-            int sizeOfBox = box.getQuizCards().size();
-            totalSize += sizeOfBox;
-        }
-        
-        if (totalSize == 0) {
-            return null;
-        }
-            
-        QuizCard nextCard = this.interval.drawANewCard(boxes);
-        
-        return nextCard;
-    } 
         
     public ArrayList<Box> getBoxes() {
         return this.boxes;
+    }
+    
+    public String getDeckName() {
+        return this.deckName;
+    }
+    
+    public int getDeckId() {
+        return this.deckId;
+    }
+        
+    public void setDeckId(int id) {
+        this.deckId = id;
     }
 }

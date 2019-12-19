@@ -12,14 +12,36 @@ public class QuizCard {
     String question;
     String correctAnswer;
     ArrayList<String> falseAnswers;
+    int deckId;
 
-    public QuizCard(String question, String correctAnswer, ArrayList<String> falseAnswers, int boxNumber, int answeredRight, int totalAnswers) {
+    public QuizCard(String question, String correctAnswer, ArrayList<String> falseAnswers, int boxNumber, int totalRight, int totalAnswers) {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.falseAnswers = falseAnswers;
         this.boxNumber = boxNumber;
-        this.answeredRight = answeredRight;
+        this.answeredRight = totalRight;
         this.totalAnswers = totalAnswers;
+    }
+    
+    /**
+     * Generates three answer choices to choose from.
+     * A correct answer and two random false answers
+     * will be shuffled and given to the user to choose from.
+     * 
+     * @return an ArrayList of three possible choices as Strings.
+     */  
+    
+    public ArrayList<String> generateChoices() {
+        ArrayList<String> choices = new ArrayList<>();
+
+        choices.add(this.correctAnswer);
+        Collections.shuffle(falseAnswers);
+        choices.add(falseAnswers.get(0));
+        choices.add(falseAnswers.get(1));
+
+        Collections.shuffle(choices);
+        
+        return choices;
     }
     
     public String getQuestion() {
@@ -66,27 +88,6 @@ public class QuizCard {
         return this.totalAnswers - this.answeredRight;
     }
     
-     /**
-     * Generates three answer choices to choose from.
-     * A correct answer and two random false answers
-     * will be shuffled and given to the user to choose from.
-     * 
-     * @return an ArrayList of three possible choices as Strings.
-     */  
-    
-    public ArrayList<String> generateChoices() {
-        ArrayList<String> choices = new ArrayList<>();
-
-        choices.add(this.correctAnswer);
-        Collections.shuffle(falseAnswers);
-        choices.add(falseAnswers.get(0));
-        choices.add(falseAnswers.get(1));
-
-        Collections.shuffle(choices);
-        
-        return choices;
-    }
-    
     public String getCorrectAnswerString() {
         return "Correct! The answer is " + this.correctAnswer + ".";
     }
@@ -97,5 +98,13 @@ public class QuizCard {
     
     public String getQuestionAndRightAnswer() {
         return this.question + " " + this.correctAnswer;
+    }
+    
+    public int getDeckId() {
+        return this.deckId;
+    }
+        
+    public void setDeckId(int id) {
+        this.deckId = id;
     }
 }
