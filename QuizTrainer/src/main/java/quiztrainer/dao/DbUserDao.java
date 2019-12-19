@@ -1,7 +1,5 @@
 package quiztrainer.dao;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.*;
 import quiztrainer.domain.User;
 
@@ -108,39 +106,5 @@ public class DbUserDao implements UserDao {
         } catch (Exception e) {
             return null;
         }
-    }
-    
-     /**
-     * Searches and returns all User objects
-     * in the database.
-     * 
-     * @return all found users in an ArrayList
-     */
-    
-    @Override
-    public List<User> getAll() {
-        ArrayList allUsers = new ArrayList();
-        
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement getAllUsersStatement = dbConnection.prepareStatement("SELECT * FROM User");       
-            ResultSet rs = getAllUsersStatement.executeQuery();
-        
-            while (rs.next()) {
-                User user = new User(rs.getString("username"), rs.getString("name"));
-                allUsers.add(user);
-            }       
-        
-            getAllUsersStatement.close();
-            rs.close();
-            dbConnection.close();
-
-            return allUsers;  
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-        return null;
     }
 }

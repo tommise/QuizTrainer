@@ -1,7 +1,6 @@
 
 package quiztrainer.dao;
 
-import java.util.List;
 import quiztrainer.domain.User;
 
 public interface UserDao {
@@ -11,6 +10,4 @@ public interface UserDao {
     User findByUsername(String username);
 
     int getIdByUsername(String username);
-        
-    List<User> getAll();
 }

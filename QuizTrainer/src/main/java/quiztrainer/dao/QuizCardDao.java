@@ -5,9 +5,13 @@ import java.util.List;
 import quiztrainer.domain.QuizCard;
 
 public interface QuizCardDao {
-    QuizCard create(QuizCard quizCard, int userId) throws Exception;
+    QuizCard create(QuizCard quizCard, int userId, int deckId) throws Exception;
     
-    QuizCard findByQuestion(String question);
+    void delete(int quizCardId);
+    
+    int getIdByQuestion(String question, int userId); 
+    
+    QuizCard findByQuestion(String question, int userId);
     
     void setBox(int quizCardId, int boxNumber);
     
@@ -17,5 +21,5 @@ public interface QuizCardDao {
 
     List<QuizCard> getAllQuizCards(int userId);
     
-    int getIdByQuestion(String question);    
+    List<QuizCard> getAllQuizCardsByDeckId(int deckId);   
 }

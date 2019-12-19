@@ -3,6 +3,8 @@ package quiztrainer.dao;
 
 import java.util.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import quiztrainer.domain.QuizCard;
 
 public class DbQuizCardDao implements QuizCardDao {
@@ -16,55 +18,80 @@ public class DbQuizCardDao implements QuizCardDao {
      * Stores a new QuizCard to the database.
      * 
      * @param quizCard  A QuizCard object which was made by the user.
-     * @param userId   Current user id
+     * @param userId    Current user id who made the QuizCard.
+     * @param deckId    Id of the deck where the QuizCard object is to be added.
      * @return created QuizCard object
      */
     
     @Override
-    public QuizCard create(QuizCard quizCard, int userId) throws Exception, SQLException {
-        int boxNumber = 1;
+    public QuizCard create(QuizCard quizCard, int userId, int deckId) throws Exception, SQLException {
         ArrayList<String> falseAnswers = quizCard.getFalseAnswers();  
         
-        Connection dbConnection = db.getConnection();
-        PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("INSERT INTO QuizCard"
-                + " (user_id, boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3, answeredRight, totalAnswers)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        createNewQuizCardStatement.setInt(1, userId); 
-        createNewQuizCardStatement.setInt(2, boxNumber); 
-        createNewQuizCardStatement.setString(3, quizCard.getQuestion()); 
-        createNewQuizCardStatement.setString(4, quizCard.getCorrectAnswer());
-        createNewQuizCardStatement.setString(5, falseAnswers.get(0)); 
-        createNewQuizCardStatement.setString(6, falseAnswers.get(1));
-        createNewQuizCardStatement.setString(7, falseAnswers.get(2));  
-        createNewQuizCardStatement.setInt(8, 0);
-        createNewQuizCardStatement.setInt(9, 0);
+        try (Connection dbConnection = db.getConnection()) {
+            PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("INSERT INTO QuizCard"
+                    + " (user_id, deck_id, boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3, answeredRight, totalAnswers)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            createNewQuizCardStatement.setInt(1, userId);
+            createNewQuizCardStatement.setInt(2, deckId);
+            createNewQuizCardStatement.setInt(3, 1);
+            createNewQuizCardStatement.setString(4, quizCard.getQuestion());
+            createNewQuizCardStatement.setString(5, quizCard.getCorrectAnswer());
+            createNewQuizCardStatement.setString(6, falseAnswers.get(0));
+            createNewQuizCardStatement.setString(7, falseAnswers.get(1));
+            createNewQuizCardStatement.setString(8, falseAnswers.get(2));
+            createNewQuizCardStatement.setInt(9, 0);
+            createNewQuizCardStatement.setInt(10, 0);
+            
+            createNewQuizCardStatement.executeUpdate();
+            createNewQuizCardStatement.close();
+        }
         
-        createNewQuizCardStatement.executeUpdate();        
-        createNewQuizCardStatement.close();
-        
-        dbConnection.close();
-        
-        QuizCard newQuizCard = findByQuestion(quizCard.getQuestion());
+        QuizCard newQuizCard = findByQuestion(quizCard.getQuestion(), userId);
         
         return newQuizCard;
     }   
     
      /**
-     * Searches and returns an QuizCard object based on given question.
+     * Removes a quizCard from the database.
      * 
-     * @param findWithQuestion  question as a String to be searched.
+     * @param quizCardId Id of the QuizCard to be removed from database.
+     */
+    
+    @Override
+    public void delete(int quizCardId) {
+        
+        try (Connection dbConnection = db.getConnection()) {
+            PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("DELETE FROM QuizCard WHERE QuizCard.id = ?");
+            createNewQuizCardStatement.setInt(1, quizCardId);
+            createNewQuizCardStatement.executeUpdate();
+            createNewQuizCardStatement.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DbQuizCardDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+     /**
+     * Searches and returns an QuizCard object based on given question.
+     * The database may hold multiple QuizCards with same question,
+     * hence the query will be pointed to only current user.
+     * 
+     * @param findWithQuestion  Question as a String to be searched.
+     * @param userId    Id of the current user.
      * @return found QuizCard object if successful.
      */
     
     @Override
-    public QuizCard findByQuestion(String findWithQuestion) {
+    public QuizCard findByQuestion(String findWithQuestion, int userId) {
         QuizCard foundQuizCard = null;
         
         try {
             Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement(
-                    "SELECT * FROM QuizCard WHERE question = ?");
+            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("SELECT * FROM QuizCard"
+                    + " WHERE question = ? AND user_id = ?");
             findQuizCardStatement.setString(1, findWithQuestion);
+            findQuizCardStatement.setInt(2, userId);       
 
             ResultSet rs = findQuizCardStatement.executeQuery();
 
@@ -93,7 +120,7 @@ public class DbQuizCardDao implements QuizCardDao {
     
     @Override
     public List<QuizCard> getAllQuizCards(int currentUserId) {
-        ArrayList allQuizCards = new ArrayList();
+        ArrayList<QuizCard> allQuizCards = new ArrayList<>();
         
         try {
             Connection dbConnection = db.getConnection();
@@ -107,6 +134,41 @@ public class DbQuizCardDao implements QuizCardDao {
                 allQuizCards.add(quizCard);
             }       
         
+            getAllQuizCardsStatement.close();
+            rs.close();
+            dbConnection.close();
+
+            return allQuizCards;  
+            
+        } catch (Exception e) {
+            return null;
+        }
+    }    
+    
+     /**
+     * Return all quizCards from the Deck based on deck id.
+     * 
+     * @param deckId    Id of the deck to be searched from.
+     * @return QuizCards in ArrayList if successful.
+     */
+    
+    @Override
+    public List<QuizCard> getAllQuizCardsByDeckId(int deckId) {
+        ArrayList<QuizCard> allQuizCards = new ArrayList<>();
+        
+        try {
+            Connection dbConnection = db.getConnection();
+            PreparedStatement getAllQuizCardsStatement = dbConnection.prepareStatement(
+                    "SELECT * FROM QuizCard WHERE Deck_id = ?");
+            getAllQuizCardsStatement.setInt(1, deckId);           
+            
+            ResultSet rs = getAllQuizCardsStatement.executeQuery();
+        
+            while (rs.next()) {
+                QuizCard quizCard = getQuizCardFromResulSet(rs);
+                allQuizCards.add(quizCard);
+            }       
+            
             getAllQuizCardsStatement.close();
             rs.close();
             dbConnection.close();
@@ -146,14 +208,16 @@ public class DbQuizCardDao implements QuizCardDao {
     
      /**
      * Searches and returns an id of the QuizCard object
-     * based on a given question.
+     * based on a given question.The database may hold multiple QuizCards with same question, 
+     * hence the query will be pointed to only current user.
      * 
-     * @param question  question as a String to be searched.
+     * @param question  Question as a String to be searched.
+     * @param userId    Current user id to be searched.
      * @return found QuizCard id as an int if successful.
      */
     
     @Override
-    public int getIdByQuestion(String question) {
+    public int getIdByQuestion(String question, int userId) {
         int quizCardId;
         
         try {
@@ -179,7 +243,14 @@ public class DbQuizCardDao implements QuizCardDao {
             return -1;
         }
     }
-
+    
+     /**
+     * Updates the amount of rehearsed for particular QuizCard with QuizCard id.
+     * 
+     * @param quizCardId    Id of the QuizCard to be updated.
+     * @param amount    Amount to be updated as a new value for how many times the card has been rehearsed.
+     */
+    
     @Override
     public void setAmountRehearsed(int quizCardId, int amount) {
         try {
@@ -197,7 +268,14 @@ public class DbQuizCardDao implements QuizCardDao {
             System.out.println(e);
         }
     }
-
+    
+     /**
+     * Updates the amount of right answers for particular QuizCard with QuizCard id.
+     * 
+     * @param quizCardId    Id of the QuizCard to be updated.
+     * @param amount    Amount to be updated as a new value for how many times the card has been answered right.
+     */
+    
     @Override
     public void setAmountAnsweredRight(int quizCardId, int amount) {
         try {
