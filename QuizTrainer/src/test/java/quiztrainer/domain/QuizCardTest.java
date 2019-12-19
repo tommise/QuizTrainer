@@ -2,7 +2,6 @@
 package quiztrainer.domain;
 
 import java.util.*;
-import quiztrainer.logic.Leitner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +10,6 @@ import static org.junit.Assert.*;
 public class QuizCardTest {
     
     QuizCard quizCard;
-    Deck deck;
-    Leitner leitner;
 
     @Before
     public void setUp() {
@@ -26,10 +23,6 @@ public class QuizCardTest {
         falseAnswers.add("Tallinn");         
         
         quizCard = new QuizCard(question, answer, falseAnswers, 1, 0, 0);
-        leitner = new Leitner();
-        deck = new Deck("Default deck");
-        
-        deck.addANewCard(quizCard);
     }  
     
     @Test

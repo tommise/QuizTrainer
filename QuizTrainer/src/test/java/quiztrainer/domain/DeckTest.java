@@ -4,10 +4,7 @@ package quiztrainer.domain;
 import quiztrainer.logic.Leitner;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -46,13 +43,6 @@ public class DeckTest {
     }
     
     @Test
-    public void newCardGoesToBoxOne() {
-        Box box1 = boxes.get(0);
-        deck.addANewCard(quizCard);
-        assertEquals(1, box1.getQuizCards().size());
-    }
-    
-    @Test
     public void addingACardToSpecificBoxGoesToRightBox() {
         Box box5 = boxes.get(4);
         deck.addACard(quizCard, 5);
@@ -61,7 +51,7 @@ public class DeckTest {
     
     @Test
     public void searchingWithQuestionReturnsRightCard() {
-        deck.addANewCard(quizCard);
+        deck.addACard(quizCard, 1);
         String question = "What is the capital city of Finland?";
         
         assertEquals(quizCard, deck.getACard(question));
@@ -74,19 +64,4 @@ public class DeckTest {
         
         assertEquals(4, boxNumber);
     }
-    
-    @Test
-    public void nextQuestionDrawReturnsNullIfBoxesAreEmpty() {
-        QuizCard nextQuizCard = deck.drawNextQuestion();
-        
-        assertNull(nextQuizCard);
-    }  
-    
-    @Test
-    public void nextQuestionDrawReturnsQuizCard() {
-        deck.addACard(quizCard, 4);
-        QuizCard nextQuizCard = deck.drawNextQuestion();
-        
-        assertNotNull(nextQuizCard);
-    }     
 }

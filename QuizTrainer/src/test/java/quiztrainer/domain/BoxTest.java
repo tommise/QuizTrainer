@@ -4,10 +4,7 @@ package quiztrainer.domain;
 import quiztrainer.logic.Leitner;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,12 +29,11 @@ public class BoxTest {
 
         int boxNumber = 1;
         box1 = new Box(boxNumber);
-        
-        box1.addACard(quizCard);
     }
     
     @Test
     public void addingACardToABoxIncreasesSize() {
+        box1.addACard(quizCard);
         assertEquals(1, box1.getQuizCards().size());
     }
     
