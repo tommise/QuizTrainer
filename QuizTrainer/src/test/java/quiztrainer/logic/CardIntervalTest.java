@@ -1,6 +1,8 @@
 
 package quiztrainer.logic;
 
+import quiztrainer.utils.Leitner;
+import quiztrainer.utils.CardInterval;
 import quiztrainer.domain.Box;
 import quiztrainer.domain.Deck;
 import quiztrainer.domain.QuizCard;

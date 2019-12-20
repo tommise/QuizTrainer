@@ -1,6 +1,7 @@
 
 package quiztrainer.logic;
 
+import quiztrainer.utils.Leitner;
 import java.util.*;
 import quiztrainer.domain.Box;
 import quiztrainer.domain.QuizCard;

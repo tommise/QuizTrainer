@@ -5,11 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import quiztrainer.dao.*;
-import quiztrainer.logic.Leitner;
+import quiztrainer.utils.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import quiztrainer.logic.CardInterval;
 
 public class QuizTrainerService {
     

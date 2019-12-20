@@ -1,7 +1,7 @@
 
 package quiztrainer.domain;
 
-import quiztrainer.logic.Leitner;
+import quiztrainer.utils.Leitner;
 
 import java.util.ArrayList;
 import org.junit.Before;

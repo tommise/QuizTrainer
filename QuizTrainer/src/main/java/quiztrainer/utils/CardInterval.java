@@ -1,5 +1,5 @@
 
-package quiztrainer.logic;
+package quiztrainer.utils;
 
 import java.util.*;
 import quiztrainer.domain.Box;
