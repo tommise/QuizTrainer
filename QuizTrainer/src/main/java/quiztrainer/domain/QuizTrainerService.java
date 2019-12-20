@@ -103,22 +103,21 @@ public class QuizTrainerService {
     }    
     
      /**
-     * Adding a new QuizCard.
-     * If given quizCard was not found within the database,
-     * a quizCard will be added to the database with
-     * quizCardDao.create() method.
+     * Adding a new QuizCard.If given quizCard was not found within the database, 
+     * a quizCard will be added to the database with quizCardDao.create() method.
      *
      * @param   quizCard   QuizCard to be added to the database.
+     * @param deckName  Name of the deck where the QuizCard is to be added.
      * 
      * @return true if QuizCard was successfully added.
      */  
     
-    public boolean addANewQuizCard(QuizCard quizCard, String deckName) {
-        int deckId = deckDao.getDeckIdByNameAndUserId(deckName, currentUserId);
-        
+    public boolean addANewQuizCard(QuizCard quizCard, String deckName) {        
         if (quizCardDao.findByQuestion(quizCard.getQuestion(), currentUserId) != null) {
             return false;
         }
+        
+        int deckId = deckDao.getDeckIdByNameAndUserId(deckName, currentUserId);
         
         try {
             quizCardDao.create(quizCard, currentUserId, deckId);
