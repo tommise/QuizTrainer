@@ -23,5 +23,8 @@
 | 10.12 | 2h   | JUnit testejä QuizTrainerServicelle,  UI muutoksia|
 | 10.12 | 2h   | Arkkitehtuuritiedoston muokkaamista, sekvenssikaavion lisäys |
 | 17.12 | 5h   | QuizCard statistiikan lisäys ja tähän liittyviä tietokanta ja UI muutoksia |
+| 18.12 | 6h   | DeckDaon ja DbDeckDaon tekemistä |
+| 19.12 | 4h   | JUnit testejä, UI muokkaamista, JavaDocin päivittämistä |
+| 20.12 | 4h   | Dokumentaation päivittelyä, käyttöohjeet, testausdokumentti |
 
-Yhteensä: 60h
+Yhteensä: 74h
