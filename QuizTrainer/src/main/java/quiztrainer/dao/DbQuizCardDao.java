@@ -222,8 +222,10 @@ public class DbQuizCardDao implements QuizCardDao {
         
         try {
             Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardIdStatement = dbConnection.prepareStatement("SELECT id FROM QuizCard WHERE question = ?");
+            PreparedStatement findQuizCardIdStatement = dbConnection.prepareStatement("SELECT id FROM QuizCard "
+                    + "WHERE question = ? AND user_id = ?");
             findQuizCardIdStatement.setString(1, question);
+            findQuizCardIdStatement.setInt(2, userId);
 
             ResultSet rs = findQuizCardIdStatement.executeQuery();
 

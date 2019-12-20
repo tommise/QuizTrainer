@@ -276,7 +276,6 @@ public class QuizTrainerService {
         if (allQuizCards.isEmpty()) {
             return null;
         }
-        
         QuizCard foundCard = allQuizCards.get(0);
         
         for (QuizCard quizCard : allQuizCards) {
@@ -300,7 +299,6 @@ public class QuizTrainerService {
         if (allQuizCards.isEmpty()) {
             return null;
         }
-        
         QuizCard foundCard = allQuizCards.get(0);
         
         for (QuizCard quizCard : allQuizCards) {
@@ -327,7 +325,6 @@ public class QuizTrainerService {
         }
         
         QuizCard foundCard = allQuizCards.get(0);
-        
         for (QuizCard quizCard : allQuizCards) {
             if (quizCard.getTotalAnsweredRight() > foundCard.getTotalAnsweredRight()) {
                 foundCard = quizCard;

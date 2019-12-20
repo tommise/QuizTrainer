@@ -182,14 +182,14 @@ public class UserInterface extends Application {
         VBox primaryPane = new VBox(20);
         primaryPane.setPadding(new Insets(20));
         primaryPane.setPadding(new Insets(20));
-        Button primaryAddANewCardButton = new Button("Add a new card");
-        Button primaryAddANewDeckButton = new Button("Add a new deck");
-        Button primaryRehearseButton = new Button("Rehearse");
-        Button primaryListingButton = new Button("My cards");
+        Button primaryAddANewDeckButton = new Button("Add a new Deck");
+        Button primaryAddANewCardButton = new Button("Add a new QuizCard");     
+        Button primaryListingButton = new Button("My QuizCards");
         Button primaryStatisticsButton = new Button("Statistics");
+        Button primaryRehearseButton = new Button("Rehearse");        
         Button logoutButton = new Button("Logout");
-        primaryPane.getChildren().addAll(currentUserText, primaryAddANewCardButton, 
-                primaryAddANewDeckButton, primaryListingButton, primaryStatisticsButton, primaryRehearseButton, notificationLabel, logoutButton);
+        primaryPane.getChildren().addAll(currentUserText, primaryAddANewDeckButton, primaryAddANewCardButton,
+                primaryListingButton, primaryStatisticsButton, primaryRehearseButton, notificationLabel, logoutButton);
 
         logoutButton.setOnAction(e-> {
             trainer.logout();
@@ -309,7 +309,7 @@ public class UserInterface extends Application {
         addANewDeckPane.setPadding(new Insets(20));
         Button returnFromAddDeckButton = new Button("<- Return to menu");      
         
-        Label newDeckInstruction = new Label("Choose a suitable name for the deck: (ie. Anatomy)");
+        Label newDeckInstruction = new Label("Choose a name for the deck as a category for the cards: (ie. Anatomy or Cities)");
         TextField newDeckNameInput = new TextField(); 
         Button addANewDeckButton = new Button("Add a deck"); 
         Label newDeckMessage = new Label("");
@@ -359,7 +359,7 @@ public class UserInterface extends Application {
         Button returnFromListingButton = new Button("<- Return to menu"); 
         Text listingText = new Text("Listing QuizCards");
         listingText.setFont(Font.font("Arial", FontWeight.BOLD, 20));        
-        listingScene = new Scene(quizCardListingPane, 550, 550);
+        listingScene = new Scene(quizCardListingPane, 575, 575);
         
         quizCardListNodes = new VBox(10);
         ScrollPane quizCardScrollPane = new ScrollPane();
@@ -519,6 +519,7 @@ public class UserInterface extends Application {
                 if (!rehearsePane.getChildren().contains(nextQuestionButton)) {
                     rehearsePane.getChildren().add(2, nextQuestionButton);
                 }
+                
                 primaryStage.setScene(mainRehearseScene); 
             }
         });
