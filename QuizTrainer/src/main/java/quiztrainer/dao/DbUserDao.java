@@ -19,18 +19,20 @@ public class DbUserDao implements UserDao {
      */
     
     @Override
-    public User create(User user) throws Exception, SQLException {
+    public User create(User user) {
         String username = user.getUsername();
         String name = user.getName();
         
-        Connection dbConnection = db.getConnection();
-        PreparedStatement createNewUserStatement = dbConnection.prepareStatement("INSERT INTO User (username, name) VALUES (?, ?)");
-        createNewUserStatement.setString(1, username); 
-        createNewUserStatement.setString(2, name);
-        createNewUserStatement.executeUpdate();        
-        createNewUserStatement.close();
-        
-        dbConnection.close();
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement createNewUserStatement = dbConnection.prepareStatement(
+                        "INSERT INTO User (username, name) VALUES (?, ?)")) {
+            
+            createNewUserStatement.setString(1, username);
+            createNewUserStatement.setString(2, name);
+            createNewUserStatement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         
         User newUser = findByUsername(username);
         
@@ -47,11 +49,12 @@ public class DbUserDao implements UserDao {
     
     @Override
     public int getIdByUsername(String username) {
-        int userId;
+        int userId = -1;
         
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement findUserIdStatement = dbConnection.prepareStatement("SELECT id FROM User WHERE username = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement findUserIdStatement = dbConnection.prepareStatement(
+                        "SELECT id FROM User WHERE username = ?")) {
+            
             findUserIdStatement.setString(1, username);
 
             ResultSet rs = findUserIdStatement.executeQuery();
@@ -62,14 +65,11 @@ public class DbUserDao implements UserDao {
                 return -1;
             }
 
-            findUserIdStatement.close();
-            rs.close();
-            dbConnection.close();  
-            
-            return userId;
         } catch (Exception e) {
-            return -1;
+            System.out.println(e);
         }
+        
+        return userId;
     }
     
      /**
@@ -82,11 +82,12 @@ public class DbUserDao implements UserDao {
     
     @Override
     public User findByUsername(String username) {
-        User foundUser;
+        User foundUser = null;
         
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement findUserStatement = dbConnection.prepareStatement("SELECT username, name FROM User WHERE username = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement findUserStatement = dbConnection.prepareStatement(
+                        "SELECT username, name FROM User WHERE username = ?")) {
+            
             findUserStatement.setString(1, username);
 
             ResultSet rs = findUserStatement.executeQuery();
@@ -97,14 +98,11 @@ public class DbUserDao implements UserDao {
                 return null;
             }
 
-            findUserStatement.close();
-            rs.close();
-            dbConnection.close();  
-            
-            return foundUser;
             
         } catch (Exception e) {
-            return null;
+            System.out.println(e);
         }
+        
+        return foundUser;
     }
 }

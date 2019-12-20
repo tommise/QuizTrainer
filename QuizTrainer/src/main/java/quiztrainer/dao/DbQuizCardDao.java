@@ -24,28 +24,25 @@ public class DbQuizCardDao implements QuizCardDao {
      */
     
     @Override
-    public QuizCard create(QuizCard quizCard, int userId, int deckId) throws Exception, SQLException {
-        ArrayList<String> falseAnswers = quizCard.getFalseAnswers();  
-        
-        try (Connection dbConnection = db.getConnection()) {
-            PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("INSERT INTO QuizCard"
-                    + " (user_id, deck_id, boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3, answeredRight, totalAnswers)"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    public QuizCard create(QuizCard quizCard, int userId, int deckId) throws Exception, SQLException {        
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("INSERT INTO QuizCard"
+                + " (user_id, deck_id, boxNumber, question, rightAnswer, falseAnswer1, falseAnswer2, falseAnswer3, answeredRight, totalAnswers)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+            
             createNewQuizCardStatement.setInt(1, userId);
             createNewQuizCardStatement.setInt(2, deckId);
             createNewQuizCardStatement.setInt(3, 1);
             createNewQuizCardStatement.setString(4, quizCard.getQuestion());
             createNewQuizCardStatement.setString(5, quizCard.getCorrectAnswer());
-            createNewQuizCardStatement.setString(6, falseAnswers.get(0));
-            createNewQuizCardStatement.setString(7, falseAnswers.get(1));
-            createNewQuizCardStatement.setString(8, falseAnswers.get(2));
+            createNewQuizCardStatement.setString(6, quizCard.getFalseAnswers().get(0));
+            createNewQuizCardStatement.setString(7, quizCard.getFalseAnswers().get(1));
+            createNewQuizCardStatement.setString(8, quizCard.getFalseAnswers().get(2));
             createNewQuizCardStatement.setInt(9, 0);
             createNewQuizCardStatement.setInt(10, 0);
             
             createNewQuizCardStatement.executeUpdate();
-            createNewQuizCardStatement.close();
         }
-        
         QuizCard newQuizCard = findByQuestion(quizCard.getQuestion(), userId);
         
         return newQuizCard;
@@ -60,11 +57,12 @@ public class DbQuizCardDao implements QuizCardDao {
     @Override
     public void delete(int quizCardId) {
         
-        try (Connection dbConnection = db.getConnection()) {
-            PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement("DELETE FROM QuizCard WHERE QuizCard.id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement createNewQuizCardStatement = dbConnection.prepareStatement(
+                        "DELETE FROM QuizCard WHERE QuizCard.id = ?")) {
+            
             createNewQuizCardStatement.setInt(1, quizCardId);
             createNewQuizCardStatement.executeUpdate();
-            createNewQuizCardStatement.close();
             
         } catch (SQLException ex) {
             Logger.getLogger(DbQuizCardDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,10 +84,9 @@ public class DbQuizCardDao implements QuizCardDao {
     public QuizCard findByQuestion(String findWithQuestion, int userId) {
         QuizCard foundQuizCard = null;
         
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("SELECT * FROM QuizCard"
-                    + " WHERE question = ? AND user_id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement findQuizCardStatement = dbConnection.prepareStatement(
+                        "SELECT * FROM QuizCard WHERE question = ? AND user_id = ?")) {
             findQuizCardStatement.setString(1, findWithQuestion);
             findQuizCardStatement.setInt(2, userId);       
 
@@ -98,16 +95,11 @@ public class DbQuizCardDao implements QuizCardDao {
             if (rs.next()) {
                 foundQuizCard = getQuizCardFromResulSet(rs);
             }
-
-            findQuizCardStatement.close();
-            rs.close();
-            dbConnection.close();  
-            
-            return foundQuizCard;
             
         } catch (Exception e) {
-            return null;
+            System.out.println(e);
         }
+        return foundQuizCard;
     }
     
     
@@ -122,9 +114,10 @@ public class DbQuizCardDao implements QuizCardDao {
     public List<QuizCard> getAllQuizCards(int currentUserId) {
         ArrayList<QuizCard> allQuizCards = new ArrayList<>();
         
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement getAllQuizCardsStatement = dbConnection.prepareStatement("SELECT * FROM QuizCard WHERE user_id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement getAllQuizCardsStatement = dbConnection.prepareStatement(
+                        "SELECT * FROM QuizCard WHERE user_id = ?")) {
+            
             getAllQuizCardsStatement.setInt(1, currentUserId);
             
             ResultSet rs = getAllQuizCardsStatement.executeQuery();
@@ -134,15 +127,12 @@ public class DbQuizCardDao implements QuizCardDao {
                 allQuizCards.add(quizCard);
             }       
         
-            getAllQuizCardsStatement.close();
-            rs.close();
-            dbConnection.close();
-
-            return allQuizCards;  
             
         } catch (Exception e) {
-            return null;
+            System.out.println(e);
         }
+        
+        return allQuizCards;
     }    
     
      /**
@@ -156,10 +146,10 @@ public class DbQuizCardDao implements QuizCardDao {
     public List<QuizCard> getAllQuizCardsByDeckId(int deckId) {
         ArrayList<QuizCard> allQuizCards = new ArrayList<>();
         
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement getAllQuizCardsStatement = dbConnection.prepareStatement(
-                    "SELECT * FROM QuizCard WHERE Deck_id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement getAllQuizCardsStatement = dbConnection.prepareStatement(
+                "SELECT * FROM QuizCard WHERE Deck_id = ?")) {
+            
             getAllQuizCardsStatement.setInt(1, deckId);           
             
             ResultSet rs = getAllQuizCardsStatement.executeQuery();
@@ -169,15 +159,11 @@ public class DbQuizCardDao implements QuizCardDao {
                 allQuizCards.add(quizCard);
             }       
             
-            getAllQuizCardsStatement.close();
-            rs.close();
-            dbConnection.close();
-
-            return allQuizCards;  
             
         } catch (Exception e) {
-            return null;
+            System.out.println(e);
         }
+        return allQuizCards;
     }    
     
      /**
@@ -190,16 +176,14 @@ public class DbQuizCardDao implements QuizCardDao {
     @Override
     public void setBox(int quizCardId, int boxNum) {
 
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("UPDATE QuizCard SET boxNumber = ? WHERE id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement findQuizCardStatement = dbConnection.prepareStatement(
+                        "UPDATE QuizCard SET boxNumber = ? WHERE id = ?")) {
+            
             findQuizCardStatement.setInt(1, boxNum);
             findQuizCardStatement.setInt(2, quizCardId);
 
             findQuizCardStatement.executeUpdate();
-
-            findQuizCardStatement.close();
-            dbConnection.close();  
 
         } catch (Exception e) {
             System.out.println(e);
@@ -218,12 +202,12 @@ public class DbQuizCardDao implements QuizCardDao {
     
     @Override
     public int getIdByQuestion(String question, int userId) {
-        int quizCardId;
+        int quizCardId = -1;
         
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardIdStatement = dbConnection.prepareStatement("SELECT id FROM QuizCard "
-                    + "WHERE question = ? AND user_id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement findQuizCardIdStatement = dbConnection.prepareStatement(
+                        "SELECT id FROM QuizCard WHERE question = ? AND user_id = ?")) {
+            
             findQuizCardIdStatement.setString(1, question);
             findQuizCardIdStatement.setInt(2, userId);
 
@@ -235,15 +219,11 @@ public class DbQuizCardDao implements QuizCardDao {
                 return -1;
             }
 
-            findQuizCardIdStatement.close();
-            rs.close();
-            dbConnection.close();  
-            
-            return quizCardId;
             
         } catch (Exception e) {
-            return -1;
+            System.out.println(e);
         }
+        return quizCardId;
     }
     
      /**
@@ -255,16 +235,14 @@ public class DbQuizCardDao implements QuizCardDao {
     
     @Override
     public void setAmountRehearsed(int quizCardId, int amount) {
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("UPDATE QuizCard SET totalAnswers = ? WHERE id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement findQuizCardStatement = dbConnection.prepareStatement(
+                        "UPDATE QuizCard SET totalAnswers = ? WHERE id = ?")) {
+            
             findQuizCardStatement.setInt(1, amount);
             findQuizCardStatement.setInt(2, quizCardId);
 
             findQuizCardStatement.executeUpdate();
-
-            findQuizCardStatement.close();
-            dbConnection.close();  
 
         } catch (Exception e) {
             System.out.println(e);
@@ -280,16 +258,14 @@ public class DbQuizCardDao implements QuizCardDao {
     
     @Override
     public void setAmountAnsweredRight(int quizCardId, int amount) {
-        try {
-            Connection dbConnection = db.getConnection();
-            PreparedStatement findQuizCardStatement = dbConnection.prepareStatement("UPDATE QuizCard SET answeredRight = ? WHERE id = ?");
+        try (Connection dbConnection = db.getConnection(); 
+                PreparedStatement findQuizCardStatement = dbConnection.prepareStatement(
+                        "UPDATE QuizCard SET answeredRight = ? WHERE id = ?")) {
+            
             findQuizCardStatement.setInt(1, amount);
             findQuizCardStatement.setInt(2, quizCardId);
 
             findQuizCardStatement.executeUpdate();
-
-            findQuizCardStatement.close();
-            dbConnection.close();  
 
         } catch (Exception e) {
             System.out.println(e);
