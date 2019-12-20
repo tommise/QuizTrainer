@@ -58,7 +58,7 @@ Once you have rehearsed QuizCards you can start to view changes in statistics. I
 
 ### Rehearsing QuizCards
 
-Once you have decided that it is time to practise made QuizCards and pressed the _Rehearse_ button in main screen, you will be forwarded to the choose a deck screen. Here you will choose the deck to be rehearsed from the _Select a deck_ dropdown menu. Once the chosen deck is selected and the deck is not empty, you will be forwarded to the instructions screen.
+Once you have decided that it is time to practise made QuizCards and pressed the _Rehearse_ button in main screen, you will be forwarded to the choose a deck screen. Here you will choose the deck to be rehearsed from the _Select a deck_ dropdown menu. Once the chosen deck is selected press the _Rehearse mode ->_ button. Assuming that your deck is not empty, you will be forwarded to the instructions screen. Otherwise you will be given a notification that the deck is empty.
 
 ![Rehearse scene one](images/rehearse_scene1.png "Rehearse scene one")
 

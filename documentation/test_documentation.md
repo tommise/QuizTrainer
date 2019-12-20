@@ -10,7 +10,7 @@ The main functionality which is located in the _quiztrainer.domain_ package is t
 
 Class [QuizTrainerService](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/main/java/quiztrainer/domain/QuizTrainerService.java) acts as a intermediary between the SQLite database and UI. With this in mind, [QuizTrainerServiceTest](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/test/java/quiztrainer/domain/QuizTrainerServiceTest.java) holds all the propriety test to functionally test the classes in _quiztrainer.dao_ as it's method call the dao class in question.
 
-### Logic
+### Utils
 
 The main utils of the app, namely Leitner system and Card interval classes, have been tested accordingly in [LeitnerTest](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/test/java/quiztrainer/domain/QuizTrainerServiceTest.java) and [CardIntervalTest](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/test/java/quiztrainer/domain/QuizTrainerServiceTest.java).
 
@@ -28,10 +28,12 @@ Note that UI has been excluded from the raport, as per project instructions.
 
 ### Installation and configuration
 
-The software has been tested following [User Instructions](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/user_instructions.md) in a Linux environment. For a broader test coverage multiple users have been added during testing.
+The software has been tested following [User Instructions](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/user_instructions.md) in a Linux environment. For a broader test coverage multiple users have been added and tested.
 
 ### Functionalities
 
 The functionalities has been tested as in [Requirements specification](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/requirements_specifications.md) document states them. Package _quiztrainer.ui_ holds a class named GUIHelper which tested successfully the invalid inputs like empty fields during testing.
+
+Final release was tested on the Cubbli version of Linux through student laptop.
 
 ## Left to improve
