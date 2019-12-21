@@ -1,10 +1,8 @@
 # Test Documentation
 
-Software has been tested with unit- and integration tests with JUnit unit testing framework. 
-
 ## Unit- and integration tests
 
-The main functionality which is located in the _quiztrainer.domain_ package is tested with the class [QuizTrainerServiceTest](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/test/java/quiztrainer/domain/QuizTrainerServiceTest.java). The integration tests create a temporary database file _quiztrainerTest.db_ and use the QuizTrainerService as the app would use it with the normal _quiztrainer.db_ database. After the test are done, or namely in teardown phase, the database test database file is removed.
+Software has been tested with unit- and integration tests with JUnit testing framework. Main functionality which is located in the _quiztrainer.domain_ package is tested with the class [QuizTrainerServiceTest](https://github.com/tommise/ot-harjoitustyo/blob/master/QuizTrainer/src/test/java/quiztrainer/domain/QuizTrainerServiceTest.java). The integration tests create a temporary database file _quiztrainerTest.db_ and use the QuizTrainerService as the software would use it with the normal _quiztrainer.db_ database. After the tests are done, or namely in teardown phase, the database test file is removed.
 
 ### DAO
 
@@ -42,7 +40,7 @@ Final release was tested on the Cubbli version of Linux through student laptop.
 
 ## Further notes and possible bugs
 - The main challenge regarding software stability was to prevent multiple identical QuizCard and Deck names from getting mixed between users. As all new users are initialized with a deck named "Default deck", this was extremely important. Although User, Deck and QuizCard id:s are used extensively, there may be still scenarios where a bug may occur.
-- Database connections and PreparedStatements are wrapped as parameters for try (try-catch clause) to prevent connection leakage and the whole program uses one single connection from separated Database class. However this does not fully prevent the possibility that a connection would be left open.
-- Max length for user inputs are all 25 characters (except a QuizCard question which may be long, 40 characters). User inputs are checked for length and validity in GUIHelper class. However the impact for user interface using max length inputs was not tested extensively in all user interface scenes. 
-- JavaFX was configurated during the week 4. At first, the JavaFX did not function because of Java version related issues. With the help of senior advisors, Maven was able to integrate JavaFX.
-- Regarding previous point, there are ten scenes in the user interface. This leaves room for user interface mistakes as it is not tested.
+- Database connections and PreparedStatements are wrapped as parameters for try (try-catch clause) to prevent connection leakage and the whole program uses one single connection from separated Database class. However this does not fully prevent the possibility of human error that some statement would be mishandled.
+- Max length for user inputs are all 25 characters (except a QuizCard question which is 40 characters). User inputs are checked for length and validity in GUIHelper class. However the impact for user interface using max length inputs was not tested extensively in all user interface scenes. 
+- JavaFX was configurated during the week 4. At first, the JavaFX did not function because of Java version related issues. With the help of senior advisors, Maven was able to integrate JavaFX. This caused openjfx duplicate issues at that time and they may ass well raise their head in the future as the main cause was left unknown.
+- There are ten scenes in the user interface. As extensively the program was tested, this leaves room for user interface mistakes as the UI is not tested.
