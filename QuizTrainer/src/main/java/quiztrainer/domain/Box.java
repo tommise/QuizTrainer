@@ -17,10 +17,22 @@ public class Box {
         return this.boxNumber;
     }
     
+     /**
+     * Adds a QuizCard to the Box
+     * 
+     * @param quizCard  A QuizCard object to be added to the box.
+     */
+    
     public void addACard(QuizCard quizCard) {
         quizCards.add(quizCard);
     }
-
+    
+     /**
+     * Removes a QuizCard from the Box
+     * 
+     * @param quizCard  A QuizCard object to be removed from the box.
+     */ 
+    
     public void removeACard(QuizCard quizCard) {
         quizCards.remove(quizCard);
     }  

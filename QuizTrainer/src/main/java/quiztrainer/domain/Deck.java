@@ -44,6 +44,13 @@ public class Deck {
         }
     }    
     
+     /**
+     * Returns current box of the QuizCard object
+     * 
+     * @param card  A QuizCard to be searched
+     * @return Box object, null if not found
+     */ 
+    
     public Box getCurrentBox(QuizCard card) {
 
         for (Box box : this.boxes) {
@@ -59,6 +66,13 @@ public class Deck {
         
         return null;
     }
+    
+     /**
+     * Returns a QuizCard object from the boxes based on question
+     * 
+     * @param question  QuizCard question to be searched
+     * @return QuizCard object, null if not found
+     */ 
     
     public QuizCard getACard(String question) {
         
