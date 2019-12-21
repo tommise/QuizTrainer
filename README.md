@@ -11,12 +11,12 @@ QuizTrainer is a Java based flashcard studying application used in a desktop set
 
 [Test documentation](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/test_documentation.md)
 
-[Työaikakirjanpito](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/tuntikirjanpito.md)
+[Timekeeping](https://github.com/tommise/ot-harjoitustyo/blob/master/documentation/tuntikirjanpito.md) (in Finnish)
 
 ## Releases
-[Week 5](https://github.com/tommise/ot-harjoitustyo/releases/tag/week5)
 
-[Week 6](https://github.com/tommise/ot-harjoitustyo/releases/tag/week6)
+[All releases](https://github.com/tommise/ot-harjoitustyo/releases/)
+[Latest release: Loppupalautus](https://github.com/tommise/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Command line instructions
 
