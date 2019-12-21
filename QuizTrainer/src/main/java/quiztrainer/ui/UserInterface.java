@@ -257,14 +257,14 @@ public class UserInterface extends Application {
             choices.add(wrongChoice1Input.getText());
             choices.add(wrongChoice2Input.getText());
             choices.add(wrongChoice3Input.getText());
+            
             ArrayList<String> inputs = new ArrayList<>();
-            inputs.add(question);
             inputs.add(answer);
             inputs.add(wrongChoice1Input.getText());
             inputs.add(wrongChoice2Input.getText());
             inputs.add(wrongChoice3Input.getText());
             
-            if (guiHelper.inputsAreValid(inputs) && !chosenDeck.isEmpty()) {
+            if (guiHelper.questionStringIsValid(question) && guiHelper.inputsAreValid(inputs) && !chosenDeck.isEmpty()) {
                 QuizCard newQuizCard = new QuizCard(question, answer, choices, 1, 0, 0);
                 this.trainer.addANewQuizCard(newQuizCard, chosenDeck);  
                 notificationLabel.setText("You have successfully created a new QuizCard.");
@@ -280,7 +280,7 @@ public class UserInterface extends Application {
                 falseInputLabel.setText("Deck has not been chosen.");
                 falseInputLabel.setTextFill(Color.RED);
             } else {
-                falseInputLabel.setText("One of the forms is empty.");
+                falseInputLabel.setText("Form is empty or input is too long.");
                 falseInputLabel.setTextFill(Color.RED);
             }
         });
