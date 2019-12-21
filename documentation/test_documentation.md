@@ -25,6 +25,7 @@ We can see that with _quiztrainer.domain_ we have a total test coverage of 87% i
 As what comes to missed branches, the coverage of _quiztrainer.domain_ is 76%, _quiztrainer.dao_ 57% and _quiztrainer.utils_ 86%. Bringing the total coverage of missed branches to 73%.
 
 ![Dao branches](images/dao_branches.png "Dao branches")
+
 As we further inspect what causes the branch coverage to be relatively low in Dao classes, we can see from the Jacoco report that the branches that are being missed are by far the catch clauses of try-catch statements with the Dao classes.
 
 Note that UI has been excluded from the raport, as project instructions instruct.

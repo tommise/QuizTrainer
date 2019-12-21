@@ -16,6 +16,7 @@ QuizTrainer is a Java based flashcard studying application used in a desktop set
 ## Releases
 
 [All releases](https://github.com/tommise/ot-harjoitustyo/releases/)
+
 [Latest release: Loppupalautus](https://github.com/tommise/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Command line instructions
