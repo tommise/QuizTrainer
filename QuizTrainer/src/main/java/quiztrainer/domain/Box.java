@@ -1,10 +1,9 @@
 
 package quiztrainer.domain;
+import java.util.*;
 /**
  * Java class for Box
  */
-import java.util.*;
-
 public class Box {
     
     int boxNumber;

@@ -1,10 +1,9 @@
 
 package quiztrainer.domain;
+import java.util.ArrayList;
 /**
  * Java class for Deck
  */
-import java.util.ArrayList;
-
 public class Deck {
     
     int deckId;    
