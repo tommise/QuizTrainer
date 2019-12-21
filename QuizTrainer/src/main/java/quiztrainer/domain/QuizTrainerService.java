@@ -9,7 +9,9 @@ import quiztrainer.utils.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * Class for application logic
+ */
 public class QuizTrainerService {
     
     Database database;

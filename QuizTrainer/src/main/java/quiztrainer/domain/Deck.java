@@ -1,6 +1,8 @@
 
 package quiztrainer.domain;
-
+/**
+ * Java class for Deck
+ */
 import java.util.ArrayList;
 
 public class Deck {

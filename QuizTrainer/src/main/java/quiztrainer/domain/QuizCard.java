@@ -3,7 +3,9 @@ package quiztrainer.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+/**
+ * Java class for QuizCard
+ */
 public class QuizCard {
     
     int boxNumber;

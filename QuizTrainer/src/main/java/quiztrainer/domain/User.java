@@ -1,6 +1,8 @@
 
 package quiztrainer.domain;
-
+/**
+ * Java class for User
+ */
 public class User {
     
     private String username;

@@ -1,6 +1,8 @@
 
 package quiztrainer.domain;
-
+/**
+ * Java class for Box
+ */
 import java.util.*;
 
 public class Box {
